@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>~*~ pav's homepage ~*~</title>
+<meta name="description" content="Paweł Sysiak, pav for short. Designer, writer, art background, interested in almost anything.">
+<meta name="theme-color" content="#FF4FC3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2l8 22 22 8-22 8-8 22-8-22-22-8 22-8z' fill='%23FF4FC3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #FF4FC3;
+  --baby: #FFC9EE;
+  --lime: #B8FF2E;
+  --cyan: #35E0FF;
+  --grape: #7A2BFF;
+  --navy: #1B1464;
+  --paper: #FFFFFF;
+  --px: "Silkscreen", "Courier New", monospace;
+  --fat: "Bowlby One", "Arial Black", Impact, sans-serif;
+  --body: Verdana, Geneva, Tahoma, sans-serif;
+}
+* { box-sizing: border-box; }
+html { overflow-x: hidden; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  padding: 18px 12px 40px;
+  overflow-x: clip;
+  color: var(--navy);
+  font: 14px/1.55 var(--body);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cpath d='M24 8l4 12 12 4-12 4-4 12-4-12-12-4 12-4z' fill='%23fff'/%3E%3Cpath d='M98 78l3 8 8 3-8 3-3 8-3-8-8-3 8-3z' fill='%23fff' opacity='.85'/%3E%3Ccircle cx='70' cy='36' r='2.5' fill='%23fff'/%3E%3Ccircle cx='118' cy='22' r='1.5' fill='%23fff'/%3E%3Ccircle cx='34' cy='108' r='2' fill='%23fff'/%3E%3Ccircle cx='128' cy='124' r='1.5' fill='%23fff'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #FF8FDB 0%, #FFC9EE 45%, #C9B6FF 100%) fixed;
+}
+a { color: #1A1AFF; }
+a:visited { color: var(--grape); }
+a:hover { color: var(--pink); background: var(--lime); }
+a:focus-visible, button:focus-visible { outline: 3px dashed var(--grape); outline-offset: 2px; }
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, p, ul, figure { margin: 0; }
+
+.page {
+  max-width: 1010px;
+  margin: 0 auto;
+  background: var(--paper);
+  border: 6px ridge #D9DDF2;
+  box-shadow: 0 0 0 3px var(--pink), 0 0 34px 6px rgba(255, 255, 255, .9);
+}
+
+/* scrolling banner */
+.ticker { background: var(--navy); color: var(--lime); overflow: hidden; border-bottom: 3px solid var(--pink); }
+.ticker div { display: flex; width: max-content; padding: 6px 0; font: 700 14px/1 var(--px); white-space: nowrap; animation: scroll 26s linear infinite; }
+.ticker span { padding: 0 14px; }
+.ticker i { color: var(--pink); font-style: normal; }
+@keyframes scroll { to { transform: translateX(-50%); } }
+
+/* header */
+.head {
+  position: relative;
+  text-align: center;
+  padding: 26px 14px 22px;
+  background:
+    radial-gradient(ellipse at 50% 120%, rgba(53, 224, 255, .55), transparent 60%),
+    linear-gradient(180deg, #FFF 0%, #FFE9F8 100%);
+  border-bottom: 3px dotted var(--pink);
+  overflow: hidden;
+}
+.hello { font: 700 clamp(16px, 3vw, 24px)/1 var(--px); color: var(--grape); letter-spacing: .08em; }
+.head h1 {
+  position: relative;
+  display: inline-block;
+  font: 400 clamp(7rem, 30vw, 15rem)/.95 var(--fat);
+  letter-spacing: .01em;
+  padding: 0 .08em .06em;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(180deg, #FFFFFF 0%, #DCE6FF 22%, #6F7FE8 47%, #1B1464 50%, #B9C6FF 54%, #F4F7FF 74%, #8C9AF0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 3px var(--navy);
+  filter: drop-shadow(5px 5px 0 var(--pink)) drop-shadow(-3px -2px 0 var(--cyan));
+}
+.head h1[data-skin="gold"] { background-image: linear-gradient(180deg, #FFFDE0 0%, #FFE45E 24%, #E08A00 47%, #6B3A00 50%, #FFC93B 54%, #FFF6B8 74%, #E8A21C 100%); }
+.head h1[data-skin="bubblegum"] { background-image: linear-gradient(180deg, #FFFFFF 0%, #FFC9EE 24%, #FF4FC3 47%, #8A0E63 50%, #FF8FDB 54%, #FFF0FA 74%, #FF6BD0 100%); filter: drop-shadow(5px 5px 0 var(--grape)) drop-shadow(-3px -2px 0 var(--lime)); }
+.head h1[data-skin="alien"] { background-image: linear-gradient(180deg, #FFFFFF 0%, #E4FFAB 24%, #7ED600 47%, #235200 50%, #B8FF2E 54%, #F5FFDD 74%, #8FE000 100%); filter: drop-shadow(5px 5px 0 var(--grape)) drop-shadow(-3px -2px 0 var(--pink)); }
+.twinkle { position: absolute; font-size: 30px; color: var(--pink); animation: twinkle 1.4s steps(2) infinite; pointer-events: none; }
+.twinkle:nth-of-type(1) { left: 8%; top: 22%; }
+.twinkle:nth-of-type(2) { right: 9%; top: 16%; color: var(--grape); animation-delay: .4s; font-size: 40px; }
+.twinkle:nth-of-type(3) { left: 17%; bottom: 30%; color: var(--cyan); animation-delay: .8s; font-size: 22px; }
+.twinkle:nth-of-type(4) { right: 16%; bottom: 36%; color: #FFB300; animation-delay: .2s; }
+@keyframes twinkle { 50% { transform: scale(.4) rotate(45deg); opacity: .4; } }
+.aka { font-size: clamp(15px, 2.6vw, 20px); margin-top: 4px; }
+.pitch {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: bold;
+  font-size: clamp(13px, 2.2vw, 16px);
+  background: linear-gradient(90deg, #FF2E93, #FF8A00, #1FAE3C, #008CFF, #7A2BFF, #FF2E93);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rainbow 6s linear infinite;
+}
+@keyframes rainbow { to { background-position: 200% 0; } }
+.tip { margin-top: 12px; font: 400 12px/1.4 var(--px); color: var(--grape); }
+.blinkies { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
+.blinkies span {
+  font: 700 11px/1 var(--px);
+  padding: 7px 9px 6px;
+  border: 2px outset #fff;
+  color: var(--navy);
+  background: var(--lime);
+  text-transform: uppercase;
+}
+.blinkies span:nth-child(2) { background: linear-gradient(180deg, #fff 76%, #FF3B3B 76%); }
+.blinkies span:nth-child(3) { background: var(--cyan); animation: blink 1s steps(2) infinite; }
+.blinkies span:nth-child(4) { background: var(--pink); color: #fff; }
+@keyframes blink { 50% { background: #fff; } }
+
+/* three columns, like it's 2001 */
+.cols { display: grid; grid-template-columns: 178px minmax(0, 1fr) 190px; gap: 14px; padding: 14px; }
+.side { display: flex; flex-direction: column; gap: 14px; }
+.box { border: 2px solid var(--navy); background: #fff; box-shadow: 4px 4px 0 var(--baby); }
+.box > h2, .box > h3 {
+  font: 700 13px/1.2 var(--px);
+  color: #fff;
+  padding: 7px 9px 6px;
+  background: linear-gradient(90deg, var(--pink), var(--grape));
+  border-bottom: 2px solid var(--navy);
+  text-shadow: 1px 1px 0 var(--navy);
+}
+.box > h2 { font-size: 17px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.box > h2 small { font: 400 11px/1.2 var(--px); color: var(--lime); }
+.box .in { padding: 12px; }
+.side .box:nth-child(even) > h3 { background: linear-gradient(90deg, #00B7E0, #1A1AFF); }
+
+.nav { list-style: none; padding: 8px; display: grid; gap: 6px; }
+.nav a, .gel {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  font: 700 12px/1.2 var(--px);
+  color: var(--navy);
+  padding: 8px 8px 7px;
+  border-radius: 999px;
+  border: 2px solid var(--navy);
+  background: linear-gradient(180deg, #FFFFFF 0%, #C8F6FF 45%, #35E0FF 50%, #A6F1FF 100%);
+  box-shadow: inset 0 -3px 6px rgba(27, 20, 100, .25);
+}
+.nav a:visited, .gel:visited { color: var(--navy); }
+.nav a:hover, .gel:hover { background: linear-gradient(180deg, #FFFFFF 0%, #EEFFC4 45%, #B8FF2E 50%, #DFFF9A 100%); color: var(--navy); }
+.lcd { font: 700 22px/1 var(--px); letter-spacing: .12em; text-align: center; color: var(--lime); background: #0B0830; padding: 9px 4px 7px; border: 3px inset #D9DDF2; }
+.small { font-size: 12px; line-height: 1.5; }
+.center { text-align: center; }
+
+.main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.big { font-size: 15px; line-height: 1.7; }
+.big b { background: var(--lime); padding: 0 3px; }
+
+.rows { list-style: none; padding: 0; }
+.rows li { padding: 10px 12px; border-bottom: 1px dashed var(--pink); }
+.rows li:nth-child(odd) { background: #FFF3FB; }
+.rows li:nth-child(even) { background: #EFFCFF; }
+.rows li:last-child { border-bottom: 0; }
+.rows h3 { display: inline; font: bold 15px/1.3 var(--body); }
+.tag {
+  display: inline-block;
+  font: 700 10px/1 var(--px);
+  text-transform: uppercase;
+  padding: 4px 6px 3px;
+  margin-right: 6px;
+  color: #fff;
+  background: #FF2E2E;
+  border: 1px solid var(--navy);
+  vertical-align: 2px;
+}
+.rows li:nth-child(3n+2) .tag { background: #1A1AFF; }
+.rows li:nth-child(3n) .tag { background: #0F9D2E; }
+.rows li:first-child .tag { animation: flash 1s steps(2) infinite; }
+@keyframes flash { 50% { background: #FFB300; color: var(--navy); } }
+.rows p { margin: 3px 0 2px; }
+.rows a { font-weight: bold; }
+
+.pics { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
+.pics figure { border: 5px ridge #C9CEE8; background: #F4F5FB; padding: 6px; }
+.pics img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 1px solid var(--navy); }
+.pics figcaption { font-size: 11px; padding-top: 6px; text-align: center; font-weight: bold; }
+.pics figcaption span { display: block; font-weight: normal; color: #5A54A0; }
+
+.vals { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.vals article { border: 2px dotted var(--grape); padding: 9px 10px; background: #FBF8FF; }
+.vals article:nth-child(4n+2), .vals article:nth-child(4n+3) { border-color: var(--pink); background: #FFF6FC; }
+.vals h3 { font: 700 13px/1.2 var(--px); color: var(--grape); margin-bottom: 4px; }
+.vals h3::before { content: "✦ "; color: var(--pink); }
+.vals p { font-size: 13px; }
+
+.creed { list-style: none; padding: 0; display: grid; gap: 8px; }
+.creed li { font-weight: bold; font-size: 15px; padding-left: 26px; position: relative; }
+.creed li::before { content: "★"; position: absolute; left: 0; top: -2px; font-size: 18px; color: var(--pink); animation: twinkle 1.4s steps(2) infinite; }
+.creed li:nth-child(2)::before { color: #1A1AFF; animation-delay: .3s; }
+.creed li:nth-child(3)::before { color: #FFB300; animation-delay: .6s; }
+.creed li:nth-child(4)::before { color: #0F9D2E; animation-delay: .9s; }
+.creed li:nth-child(5)::before { color: var(--grape); animation-delay: 1.2s; }
+.kicker { font: 700 13px/1.2 var(--px); color: var(--grape); margin-bottom: 10px; }
+
+.gels { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.gel { font-size: 13px; padding: 11px 8px 9px; }
+.gel span { display: block; font-weight: 400; font-size: 10px; margin-top: 3px; }
+
+.foot { text-align: center; padding: 16px 14px 20px; border-top: 3px dotted var(--pink); background: #FFF3FB; }
+.foot p + p { margin-top: 8px; }
+.foot .tiny { font: 400 11px/1.6 var(--px); }
+
+/* cursor sparkles */
+.spark { position: fixed; z-index: 99; pointer-events: none; font-size: 18px; line-height: 1; animation: fall .9s ease-in forwards; }
+@keyframes fall { to { transform: translateY(46px) rotate(140deg) scale(.2); opacity: 0; } }
+
+@media (max-width: 820px) {
+  body { padding: 8px 6px 28px; }
+  .cols { grid-template-columns: minmax(0, 1fr); padding: 10px; }
+  .main { order: 1; }
+  .side.left { order: 0; }
+  .side.right { order: 2; }
+  .nav { grid-template-columns: 1fr 1fr; }
+  .head h1 { -webkit-text-stroke-width: 2px; }
+}
+@media (max-width: 480px) {
+  .pics, .vals { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker div, .twinkle, .pitch, .blinkies span, .rows .tag, .creed li::before { animation: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="ticker" aria-hidden="true"><div>
+    <span>learn</span><i>★</i><span>write</span><i>★</i><span>scheme</span><i>★</i><span>design</span><i>★</i><span>overcome bias</span><i>★</i><span>love + fun</span><i>★</i><span>keep it short</span><i>★</i><span>max good</span><i>★</i>
+    <span>learn</span><i>★</i><span>write</span><i>★</i><span>scheme</span><i>★</i><span>design</span><i>★</i><span>overcome bias</span><i>★</i><span>love + fun</span><i>★</i><span>keep it short</span><i>★</i><span>max good</span><i>★</i>
+  </div></div>
+
+  <header class="head">
+    <span class="twinkle" aria-hidden="true">✦</span><span class="twinkle" aria-hidden="true">✦</span><span class="twinkle" aria-hidden="true">✦</span><span class="twinkle" aria-hidden="true">✦</span>
+    <p class="hello">~*~ hi, i'm ~*~</p>
+    <h1 id="chrome" title="click me">pav</h1>
+    <p class="aka"><b>Paweł Sysiak.</b> pav for short.</p>
+    <p class="pitch">designer. writer. art background. interested in almost anything.</p>
+    <div class="blinkies" aria-hidden="true"><span>certified generalist</span><span>grown in Poland</span><span>160k views</span><span>how to survive being interested in almost anything?</span></div>
+    <p class="tip">psst. wiggle your mouse or finger. click the big name.</p>
+  </header>
+
+  <div class="cols">
+
+    <aside class="side left">
+      <nav class="box" aria-label="Sections">
+        <h3>~ navigate ~</h3>
+        <ul class="nav">
+          <li><a href="#short">the short version</a></li>
+          <li><a href="#receipts">receipts</a></li>
+          <li><a href="#art">the art era</a></li>
+          <li><a href="#values">values</a></li>
+          <li><a href="#believe">we believe</a></li>
+          <li><a href="#links">links</a></li>
+        </ul>
+      </nav>
+      <div class="box">
+        <h3>~ other skins ~</h3>
+        <div class="in small center">This is look 1 of 5.<br><a href="../index.html">see all five</a><br><a href="../../index.html">back to the main page</a></div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <section class="box" id="short">
+        <h2>the short version <small>in my own words</small></h2>
+        <div class="in"><p class="big">My name is Paweł, or <b>pav</b> for short. I learn, write, and am <b>scheming</b> how to improve epistemics and collective coordination using technology. I am currently working at <a href="https://softmax.com">Softmax</a>. I do <a href="https://design.sysiak.com">UI / UX design</a>, wrote <a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101</a> and have a background in <a href="https://www.pawel.world/art">art</a>. I grew up in Poland and live between the US and EU.</p></div>
+      </section>
+
+      <section class="box" id="receipts">
+        <h2>receipts <small>stuff i made and did</small></h2>
+        <ul class="rows">
+          <li><span class="tag">now</span><h3>Softmax</h3><p>Product design for AI systems.</p><a href="https://softmax.com">softmax.com</a></li>
+          <li><span class="tag">10+ years</span><h3>shipping products</h3><p>Rebuilt the design system at Plume and shaped products reaching 1B+ devices. Also BlackRock.</p><a href="https://design.sysiak.com">see the design work</a></li>
+          <li><span class="tag">essay</span><h3>AI Revolution 101</h3><p>In 2016 I squeezed Tim Urban's two-part Wait But Why essay to a third of its length, with their approval, and added new animations. A 35 minute read that reached 160k+ people.</p><a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">read it</a></li>
+          <li><span class="tag">wiki</span><h3>pawel.world</h3><p>My personal wiki, live since January 2020. I try to distill the most impactful knowledge: cognitive biases, mental models, well-being, collective coordination.</p><a href="https://www.pawel.world/">get lost in it</a></li>
+          <li><span class="tag">coordination</span><h3>helping groups decide</h3><p>Led user research on AI alignment tooling at AI Objectives Institute. Built coordination systems for collective decision-making with Plurality Institute.</p><a href="https://pawsys.github.io/pawel-design/coordination/">case study</a></li>
+          <li><span class="tag">film</span><h3>How Art Works?</h3><p>A serious movie about problems and solutions. A co-created 12 minute film on the art world, global culture and metaphysics. Went viral in the art corner of the internet. 35k+ views.</p><a href="https://youtu.be/JZ-eSTuf7Ko">watch it</a></li>
+          <li><span class="tag">gallery</span><h3>Billy Gallery</h3><p>An internet art project I led, exploring how art can exist online. Exhibitions, events, trips, screenings, memes.</p><a href="https://billygallery.super.site/">visit Billy</a></li>
+          <li><span class="tag">app</span><h3>Brutu timer</h3><p>An iOS timer that burns your money if you leave the app. Stay focused or pay up.</p><a href="https://pawsys.github.io/pawel-design/brutu/">see the project</a></li>
+          <li><span class="tag">writing</span><h3>Substack</h3><p>Every subscription, free or paid, feels v meaningful.</p><a href="https://sysiak.substack.com/">subscribe</a></li>
+        </ul>
+      </section>
+
+      <section class="box" id="art">
+        <h2>the art era <small>with all my heart i believe in art</small></h2>
+        <div class="in">
+          <p>I worked as an artist creating sculptures, installations, and conceptual art. Some of my work lives in the collection of the Museum of Modern Art in Warsaw. I showed in Warsaw, Beirut, Ljubljana and Prague.</p>
+          <div class="pics">
+            <figure><img src="../../art/i-believe-in-art-with-all-my-heart.webp" width="1100" height="737" loading="lazy" alt="A yellow football jersey, one long goalkeeper arm, a fishing rod, tights and red boots arranged on a white gallery wall like a figure"><figcaption>I Believe in Art With All My Heart <span>performance, mixed media</span></figcaption></figure>
+            <figure><img src="../../art/every-step-is-moving-me-up.webp" width="735" height="1000" loading="lazy" alt="A sheet of paper with coffee rings, a drawn eye, a red triangle, a small kite on a line and a paintbrush stuck into the paper"><figcaption>Every Step Is Moving Me Up <span>installation, mixed media, 210 x 100 cm</span></figcaption></figure>
+            <figure><img src="../../art/man.webp" width="734" height="1000" loading="lazy" alt="A white gallery with a black floor and an arrangement of a white pedestal, insulation panels, a clothes drier and small objects"><figcaption>Man <span>installation, various materials, 4.5 x 7 m</span></figcaption></figure>
+            <figure><img src="../../art/painting-exhibition.webp" width="1100" height="737" loading="lazy" alt="A large white panel holding a black poster, a grid of photographs, an open book, a CD and small screens, like a tiny exhibition"><figcaption>Painting-exhibition <span>exhibition on canvas, mixed media, 130 x 170 cm</span></figcaption></figure>
+          </div>
+          <a class="gel" href="https://www.pawel.world/art">see the whole art portfolio</a>
+        </div>
+      </section>
+
+      <section class="box" id="values">
+        <h2>values + directions <small>the stuff i care about</small></h2>
+        <div class="in vals">
+          <article><h3>overcoming bias</h3><p>I am sure I suffer from many, especially the mother of all, my-side bias. So pleassssse send feedback.</p></article>
+          <article><h3>love and fun</h3><p>I want to be what loves becoming, what laughs, friends and has fun.</p></article>
+          <article><h3>short</h3><p>"I am sorry that I didn't have time to write a shorter letter." Pascal said it. I try to distill knowledge into as few words as possible.</p></article>
+          <article><h3>a peasant's reasoning</h3><p>A Polish expression: say it in the simplest possible terms. "If you can't explain it simply you don't understand it well enough." That is Richard Feynman's learning method.</p></article>
+          <article><h3>precise</h3><p>I will prioritize precision over persuasion.</p></article>
+          <article><h3>long-term</h3><p>I try to resist the new and select the knowledge that has a long expiry date.</p></article>
+          <article><h3>max good</h3><p>I feel the most meaning when I am in the process, however wiggly, of attempting to create the most positive impact.</p></article>
+          <article><h3>almost anything</h3><p>It's tough to "succeed" as a generalist. It's also the most fun.</p></article>
+        </div>
+      </section>
+
+      <section class="box" id="believe">
+        <h2>in my wiki we believe:</h2>
+        <div class="in">
+          <ul class="creed">
+            <li>AI alignment is not the default</li>
+            <li>What we LOVE to do is work on bits that might positively affect the long-run future</li>
+            <li>The impact of various interventions follows a heavy-tailed distribution</li>
+            <li>The question is not can they reason, nor can they talk, but can they suffer</li>
+            <li>All possible views of humanity's future are wild</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="box" id="links">
+        <h2>ok now go click something</h2>
+        <div class="in gels">
+          <a class="gel" href="https://www.pawel.world/">pawel.world <span>the wiki</span></a>
+          <a class="gel" href="https://design.sysiak.com">design.sysiak.com <span>the design work</span></a>
+          <a class="gel" href="https://sysiak.substack.com/">Substack <span>the essays</span></a>
+          <a class="gel" href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101 <span>the big one</span></a>
+          <a class="gel" href="https://www.pawel.world/art">art <span>the portfolio</span></a>
+          <a class="gel" href="https://github.com/pawsys">GitHub <span>pawsys</span></a>
+          <a class="gel" href="https://www.linkedin.com/in/sysiak/">LinkedIn <span>say hello</span></a>
+        </div>
+      </section>
+
+    </main>
+
+    <aside class="side right">
+      <div class="box">
+        <h3>~ sparkle-o-meter ~</h3>
+        <div class="in center">
+          <div class="lcd" id="count" aria-live="off">000000</div>
+          <p class="small" style="margin-top:8px">sparkles you made on this visit</p>
+        </div>
+      </div>
+      <div class="box">
+        <h3>~ guestbook ~</h3>
+        <div class="in small">
+          <p>What truths about myself are people trying to avoid telling me?</p>
+          <p style="margin-top:10px"><a class="gel" href="https://www.linkedin.com/in/sysiak/">Send feedback.</a></p>
+        </div>
+      </div>
+      <div class="box">
+        <h3>~ current mood ~</h3>
+        <div class="in small center"><b>interested in almost anything</b><br>It's tough to "succeed" as a generalist. It's also the most fun.</div>
+      </div>
+    </aside>
+
+  </div>
+
+  <footer class="foot">
+    <p>What truths about myself are people trying to avoid telling me? <a href="https://www.linkedin.com/in/sysiak/">Send feedback.</a></p>
+    <p class="tiny">made by pav. no cookies, only sparkles. <a href="../index.html">all five looks</a> · <a href="../../index.html">main page</a></p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var count = document.getElementById("count");
+  var made = 0, last = 0;
+  var glyphs = ["✦", "★", "✧", "♥", "✶"];
+  var colors = ["#FF4FC3", "#7A2BFF", "#35E0FF", "#FFB300", "#B8FF2E", "#FF2E2E"];
+
+  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+  function sparkle(x, y) {
+    var s = document.createElement("span");
+    s.className = "spark";
+    s.setAttribute("aria-hidden", "true");
+    s.textContent = pick(glyphs);
+    s.style.color = pick(colors);
+    s.style.fontSize = (12 + Math.random() * 16) + "px";
+    s.style.left = (x - 8 + (Math.random() * 16 - 8)) + "px";
+    s.style.top = (y - 8 + (Math.random() * 16 - 8)) + "px";
+    document.body.appendChild(s);
+    s.addEventListener("animationend", function () { s.remove(); });
+    made++;
+    count.textContent = ("000000" + made).slice(-6);
+  }
+
+  if (!calm) {
+    window.addEventListener("pointermove", function (e) {
+      var now = performance.now();
+      if (now - last < 45) return;
+      last = now;
+      sparkle(e.clientX, e.clientY);
+    }, { passive: true });
+  }
+
+  // the big chrome name changes outfit when you click it
+  var chrome = document.getElementById("chrome");
+  var skins = ["", "gold", "bubblegum", "alien"];
+  var at = 0;
+  chrome.addEventListener("click", function (e) {
+    at = (at + 1) % skins.length;
+    if (skins[at]) chrome.setAttribute("data-skin", skins[at]);
+    else chrome.removeAttribute("data-skin");
+    if (!calm) for (var i = 0; i < 10; i++) sparkle(e.clientX + (Math.random() * 120 - 60), e.clientY + (Math.random() * 80 - 40));
+  });
+})();
+</script>
+</body>
+</html>

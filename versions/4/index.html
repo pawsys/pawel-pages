@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pav deck ✦ Paweł Sysiak</title>
+<meta name="description" content="Paweł Sysiak, pav for short. Designer, writer, art background, interested in almost anything.">
+<meta name="theme-color" content="#D4FF3A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='14' y='4' width='36' height='56' rx='7' fill='%23D4FF3A' stroke='%230E0E0E' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='8' fill='%23FF2E93'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lime: #D4FF3A;
+  --ink: #0E0E0E;
+  --paper: #FFFDF5;
+  --pink: #FF2E93;
+  --blue: #2B4BFF;
+  --orange: #FF7A1A;
+  --violet: #8B3DFF;
+  --big: "Dela Gothic One", "Arial Black", sans-serif;
+  --text: "Rubik", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  font: 400 1rem/1.5 var(--text);
+  background: var(--lime) radial-gradient(rgba(14, 14, 14, .13) 1.5px, transparent 1.7px) 0 0 / 22px 22px;
+}
+p, h1, h2, h3, ul, figure { margin: 0; }
+ul { list-style: none; padding: 0; }
+img { display: block; width: 100%; height: auto; }
+a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px 56px; overflow-x: clip; }
+
+/* top strip */
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; font-weight: 700; font-size: .9rem; }
+.top .logo { font: 400 1rem/1 var(--big); }
+.top nav { display: flex; gap: 8px; }
+.top a { text-decoration: none; padding: 6px 12px; border: 2px solid var(--ink); border-radius: 99px; background: var(--paper); white-space: nowrap; }
+.top a:hover { background: var(--ink); color: var(--lime); }
+
+/* the card, used everywhere */
+.card {
+  --rx: 0deg; --ry: 0deg; --tilt: 0deg; --mx: 28%; --my: 18%;
+  position: relative; display: flex; flex-direction: column; gap: 10px;
+  padding: 12px; background: var(--paper);
+  border: 3px solid var(--ink); border-radius: 20px;
+  box-shadow: 7px 7px 0 var(--ink);
+  transform: perspective(800px) rotateX(var(--rx)) rotateY(var(--ry)) rotate(var(--tilt));
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .3s;
+}
+.card.hot { transition: transform .08s linear, box-shadow .3s; box-shadow: 12px 14px 0 var(--ink); z-index: 2; }
+.card::after {
+  content: ""; position: absolute; inset: 0; border-radius: 16px; pointer-events: none;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, .8), transparent 34%),
+    linear-gradient(115deg, transparent 22%, rgba(255, 46, 147, .38) 36%, rgba(0, 224, 255, .4) 50%, rgba(255, 236, 0, .42) 64%, transparent 78%);
+  background-size: 100% 100%, 260% 260%;
+  background-position: 0 0, var(--mx) var(--my);
+  opacity: 0; transition: opacity .35s;
+}
+.card.hot::after, .card.holo::after { opacity: 1; }
+.card > * { position: relative; z-index: 1; }
+.card > header { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+.chip { padding: 3px 10px; border: 2px solid var(--ink); border-radius: 99px; background: var(--lime); }
+.win { border: 3px solid var(--ink); border-radius: 12px; overflow: hidden; }
+.card h3 { font: 400 1.5rem/1.05 var(--big); }
+.card .go { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 12px; font-weight: 700; text-decoration: none; background: var(--ink); color: var(--paper); border-radius: 10px; }
+.card .go:hover { background: var(--pink); color: var(--ink); }
+
+/* hero */
+.hero { display: grid; gap: 34px; padding: 18px 0 48px; align-items: center; }
+.hero h1 { font: 400 clamp(3.1rem, 9.2vw, 7rem)/.98 var(--big); letter-spacing: -.02em; }
+.hero h1 b { font-weight: 400; display: inline-block; background: var(--ink); color: var(--lime); padding: 0 .16em .06em; border-radius: .16em; transform: rotate(-3deg); }
+.aka { font-size: 1.3rem; margin-top: 18px; }
+.ask { display: inline-block; margin-top: 14px; padding: 8px 14px; font-weight: 700; background: var(--pink); border: 3px solid var(--ink); border-radius: 14px; box-shadow: 4px 4px 0 var(--ink); transform: rotate(-1.5deg); }
+.energy { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; }
+.energy li { padding: 4px 11px; font-weight: 500; font-size: .88rem; border: 2px solid var(--ink); border-radius: 99px; background: var(--paper); }
+.energy li:nth-child(3n+1) { background: var(--ink); color: var(--lime); }
+.hint { margin-top: 18px; font-size: .88rem; font-weight: 500; }
+
+.me { --tilt: 3deg; width: min(100%, 330px); justify-self: center; background: #FFE94A; }
+.me .nm { font: 400 1.7rem/1 var(--big); text-transform: none; letter-spacing: 0; }
+.foil {
+  aspect-ratio: 5 / 4; display: grid; place-items: center;
+  background:
+    repeating-linear-gradient(60deg, rgba(255, 255, 255, .28) 0 6px, transparent 6px 18px),
+    linear-gradient(125deg, #FF2E93, #8B3DFF 30%, #2B4BFF 52%, #00E0C6 74%, #D4FF3A);
+  background-size: auto, 220% 220%;
+  background-position: 0 0, var(--mx) var(--my);
+}
+.foil svg { width: 52%; height: auto; filter: drop-shadow(5px 5px 0 rgba(14, 14, 14, .9)); }
+.me .type { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; font-weight: 700; font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; }
+.moves li { display: flex; align-items: center; gap: 10px; padding: 7px 2px; font: 400 1.02rem/1.15 var(--big); border-top: 2px solid var(--ink); }
+.moves li::before { content: ""; flex: none; width: 16px; height: 16px; border: 2px solid var(--ink); border-radius: 50%; background: var(--pink); }
+.moves li:nth-child(2)::before { background: var(--blue); }
+.moves li:nth-child(3)::before { background: var(--orange); }
+.moves li:nth-child(4)::before { background: var(--lime); }
+
+/* section heads */
+.sec { padding: 34px 0; }
+.head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px 18px; margin-bottom: 22px; }
+.head h2 { font: 400 clamp(1.9rem, 5.4vw, 3.3rem)/1 var(--big); letter-spacing: -.01em; }
+.head p { font-weight: 500; }
+.btn { font: 700 .95rem/1 var(--text); color: var(--ink); cursor: pointer; padding: 11px 18px; background: var(--paper); border: 3px solid var(--ink); border-radius: 99px; box-shadow: 4px 4px 0 var(--ink); text-decoration: none; display: inline-block; }
+.btn:hover { background: var(--pink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+
+/* short version */
+.rules { --tilt: -.6deg; padding: 22px; font-size: 1.14rem; line-height: 1.55; max-width: 820px; }
+.rules a { font-weight: 700; background: linear-gradient(transparent 62%, var(--lime) 62%); }
+.rules a:hover { background: var(--pink); }
+
+/* receipts deck */
+.deck { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px 22px; }
+.deck .card:nth-child(odd) { --tilt: -1.1deg; }
+.deck .card:nth-child(even) { --tilt: 1deg; }
+.deck .card:nth-child(3n) { --tilt: .4deg; }
+.title { min-height: 128px; display: flex; align-items: end; padding: 12px; color: #fff; background-color: var(--pink); }
+.title h3 { font-size: 1.62rem; }
+.k1 .title { background-image: repeating-linear-gradient(45deg, rgba(14, 14, 14, .14) 0 8px, transparent 8px 16px); color: var(--ink); }
+.k2 .title { background-color: var(--blue); background-image: radial-gradient(rgba(255, 255, 255, .35) 2.5px, transparent 2.7px); background-size: 16px 16px; }
+.k3 .title { background-color: var(--orange); color: var(--ink); background-image: repeating-linear-gradient(0deg, rgba(14, 14, 14, .14) 0 3px, transparent 3px 11px); }
+.k4 .title { background-color: var(--ink); color: var(--lime); background-image: repeating-linear-gradient(135deg, rgba(212, 255, 58, .2) 0 2px, transparent 2px 13px); }
+.k5 .title { background-color: var(--violet); background-image: repeating-conic-gradient(rgba(255, 255, 255, .16) 0 25%, transparent 0 50%); background-size: 26px 26px; }
+.deck p { font-size: .95rem; }
+@keyframes deal { from { opacity: 0; transform: translateY(46px) rotate(-9deg) scale(.86); } }
+.deck.deal .card { animation: deal .45s cubic-bezier(.2, .9, .3, 1.2) backwards; }
+
+/* art cards */
+.gallery { display: grid; gap: 24px 22px; }
+.art { padding: 10px; background: var(--ink); color: var(--paper); gap: 0; }
+.art .win { border-color: var(--paper); background: #fff; flex: 1; }
+.art img { height: 100%; object-fit: cover; }
+.art figcaption { padding: 12px 4px 4px; }
+.art b { display: block; font: 400 1.1rem/1.15 var(--big); color: var(--lime); }
+.art span { font-size: .88rem; }
+.art:nth-child(odd) { --tilt: .8deg; }
+.art:nth-child(even) { --tilt: -.9deg; }
+.lede { max-width: 720px; font-size: 1.08rem; margin-bottom: 24px; }
+.after { margin-top: 26px; }
+
+/* values */
+.values { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+.val { padding: 16px; border-radius: 16px; box-shadow: 5px 5px 0 var(--ink); }
+.val h3 { font-size: 1.16rem; }
+.val p { font-size: .95rem; }
+.val:nth-child(4n+1) { background: var(--pink); }
+.val:nth-child(4n+2) { background: var(--paper); }
+.val:nth-child(4n+3) { background: var(--orange); }
+.val:nth-child(4n) { background: #9FB4FF; }
+
+/* believe */
+.creed { --tilt: .5deg; background: var(--ink); color: var(--paper); padding: 24px; }
+.creed h3 { color: var(--lime); font-size: 1.3rem; margin-bottom: 4px; }
+.creed li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; padding: 11px 0; font-weight: 500; font-size: 1.1rem; line-height: 1.35; border-top: 2px dashed rgba(255, 253, 245, .35); }
+.creed li::before { content: "✦"; color: var(--pink); }
+
+/* links */
+.links { display: flex; flex-wrap: wrap; gap: 12px; }
+.links .btn span { font-weight: 400; }
+.foot { margin-top: 44px; padding-top: 22px; border-top: 3px solid var(--ink); display: grid; gap: 8px; }
+.foot .q { font: 400 clamp(1.15rem, 3.2vw, 1.7rem)/1.25 var(--big); max-width: 26ch; }
+.foot a { background: var(--paper); padding: 0 6px; }
+.foot a:hover { background: var(--pink); }
+
+@media (min-width: 720px) {
+  .hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); padding: 34px 0 64px; }
+  .gallery { grid-template-columns: repeat(3, 1fr); }
+  .gallery .wide { grid-column: span 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .card, .card.hot { transition: none; }
+  .deck.deal .card { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <span class="logo">pav deck</span>
+  <nav aria-label="Other versions">
+    <a href="../index.html">all 5</a>
+    <a href="../../index.html">main page</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>hi, i'm <b>pav</b></h1>
+    <p class="aka"><b>Paweł Sysiak.</b> pav for short.</p>
+    <p class="ask">how to survive being interested in almost anything?</p>
+    <ul class="energy" aria-label="Things I do">
+      <li>learn</li><li>write</li><li>scheme</li><li>design</li><li>overcome bias</li><li>love + fun</li><li>keep it short</li><li>max good</li>
+    </ul>
+    <p class="hint">Every card tilts. Move over one and catch the light.</p>
+  </div>
+
+  <article class="card holo me" aria-label="The pav card">
+    <header><span class="nm">pav</span><span class="chip">160k views</span></header>
+    <div class="win foil" aria-hidden="true">
+      <svg viewBox="0 0 120 150" fill="none" stroke="#0E0E0E" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M60 6 96 46 60 50z" fill="#FFE94A"/><path d="M60 6 24 46 60 50z" fill="#FF2E93"/>
+        <path d="M24 46 60 104 60 50z" fill="#FFFDF5"/><path d="M96 46 60 104 60 50z" fill="#D4FF3A"/>
+        <path d="M60 104q-13 10 0 20t0 20"/><path d="M52 120l16 8M52 128l16-8"/>
+      </svg>
+    </div>
+    <p class="type"><span>certified generalist</span><span>grown in Poland</span></p>
+    <ul class="moves">
+      <li>designer.</li>
+      <li>writer.</li>
+      <li>art background.</li>
+      <li>interested in almost anything.</li>
+    </ul>
+  </article>
+</section>
+
+<section class="sec" id="short">
+  <div class="head"><h2>the short version</h2><p>in my own words</p></div>
+  <div class="card rules">
+    <p>My name is Paweł, or pav for short. I learn, write, and am scheming how to improve epistemics and collective coordination using technology. I am currently working at <a href="https://softmax.com">Softmax</a>. I do <a href="https://design.sysiak.com">UI / UX design</a>, wrote <a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101</a> and have a background in <a href="https://www.pawel.world/art">art</a>. I grew up in Poland and live between the US and EU.</p>
+  </div>
+</section>
+
+<section class="sec" id="receipts">
+  <div class="head">
+    <div><h2>receipts</h2><p>stuff i made and did</p></div>
+    <button type="button" class="btn" id="shuffle">shuffle the deck</button>
+  </div>
+  <div class="deck" id="deck">
+    <article class="card k1"><header><span class="chip">now</span><span>1/9</span></header><div class="win title"><h3>Softmax</h3></div><p>Product design for AI systems.</p><a class="go" href="https://softmax.com">softmax.com <span aria-hidden="true">→</span></a></article>
+    <article class="card k2"><header><span class="chip">10+ years</span><span>2/9</span></header><div class="win title"><h3>shipping products</h3></div><p>Rebuilt the design system at Plume and shaped products reaching 1B+ devices. Also BlackRock.</p><a class="go" href="https://design.sysiak.com">see the design work <span aria-hidden="true">→</span></a></article>
+    <article class="card k3"><header><span class="chip">essay</span><span>3/9</span></header><div class="win title"><h3>AI Revolution 101</h3></div><p>In 2016 I squeezed Tim Urban's two-part Wait But Why essay to a third of its length, with their approval, and added new animations. A 35 minute read that reached 160k+ people.</p><a class="go" href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">read it <span aria-hidden="true">→</span></a></article>
+    <article class="card k4"><header><span class="chip">wiki</span><span>4/9</span></header><div class="win title"><h3>pawel.world</h3></div><p>My personal wiki, live since January 2020. I try to distill the most impactful knowledge: cognitive biases, mental models, well-being, collective coordination.</p><a class="go" href="https://www.pawel.world/">get lost in it <span aria-hidden="true">→</span></a></article>
+    <article class="card k5"><header><span class="chip">coordination</span><span>5/9</span></header><div class="win title"><h3>helping groups decide</h3></div><p>Led user research on AI alignment tooling at AI Objectives Institute. Built coordination systems for collective decision-making with Plurality Institute.</p><a class="go" href="https://pawsys.github.io/pawel-design/coordination/">case study <span aria-hidden="true">→</span></a></article>
+    <article class="card k1"><header><span class="chip">film</span><span>6/9</span></header><div class="win title"><h3>How Art Works?</h3></div><p>A serious movie about problems and solutions. A co-created 12 minute film on the art world, global culture and metaphysics. Went viral in the art corner of the internet. 35k+ views.</p><a class="go" href="https://youtu.be/JZ-eSTuf7Ko">watch it <span aria-hidden="true">→</span></a></article>
+    <article class="card k2"><header><span class="chip">gallery</span><span>7/9</span></header><div class="win title"><h3>Billy Gallery</h3></div><p>An internet art project I led, exploring how art can exist online. Exhibitions, events, trips, screenings, memes.</p><a class="go" href="https://billygallery.super.site/">visit Billy <span aria-hidden="true">→</span></a></article>
+    <article class="card k3"><header><span class="chip">app</span><span>8/9</span></header><div class="win title"><h3>Brutu timer</h3></div><p>An iOS timer that burns your money if you leave the app. Stay focused or pay up.</p><a class="go" href="https://pawsys.github.io/pawel-design/brutu/">see the project <span aria-hidden="true">→</span></a></article>
+    <article class="card k4"><header><span class="chip">writing</span><span>9/9</span></header><div class="win title"><h3>Substack</h3></div><p>Every subscription, free or paid, feels v meaningful.</p><a class="go" href="https://sysiak.substack.com/">subscribe <span aria-hidden="true">→</span></a></article>
+  </div>
+</section>
+
+<section class="sec" id="art">
+  <div class="head"><h2>the art era</h2><p>with all my heart i believe in art</p></div>
+  <p class="lede">I worked as an artist creating sculptures, installations, and conceptual art. Some of my work lives in the collection of the Museum of Modern Art in Warsaw. I showed in Warsaw, Beirut, Ljubljana and Prague.</p>
+  <div class="gallery">
+    <figure class="card art wide"><div class="win"><img src="../../art/i-believe-in-art-with-all-my-heart.webp" width="1100" height="737" alt="A yellow football jersey, one long goalkeeper arm, a fishing rod, tights and red boots arranged on a white gallery wall like a figure"></div><figcaption><b>I Believe in Art With All My Heart</b><span>performance, mixed media</span></figcaption></figure>
+    <figure class="card art"><div class="win"><img src="../../art/every-step-is-moving-me-up.webp" width="735" height="1000" loading="lazy" alt="A sheet of paper with coffee rings, a drawn eye, a red triangle, a small kite on a line and a paintbrush stuck into the paper"></div><figcaption><b>Every Step Is Moving Me Up</b><span>installation, mixed media, 210 x 100 cm</span></figcaption></figure>
+    <figure class="card art"><div class="win"><img src="../../art/man.webp" width="734" height="1000" loading="lazy" alt="A white gallery with a black floor and an arrangement of a white pedestal, insulation panels, a clothes drier and small objects"></div><figcaption><b>Man</b><span>installation, various materials, 4.5 x 7 m</span></figcaption></figure>
+    <figure class="card art wide"><div class="win"><img src="../../art/painting-exhibition.webp" width="1100" height="737" loading="lazy" alt="A large white panel holding a black poster, a grid of photographs, an open book, a CD and small screens, like a tiny exhibition"></div><figcaption><b>Painting-exhibition</b><span>exhibition on canvas, mixed media, 130 x 170 cm</span></figcaption></figure>
+  </div>
+  <p class="after"><a class="btn" href="https://www.pawel.world/art">see the whole art portfolio</a></p>
+</section>
+
+<section class="sec" id="values">
+  <div class="head"><h2>values + directions</h2><p>the stuff i care about</p></div>
+  <div class="values">
+    <article class="card val"><h3>overcoming bias</h3><p>I am sure I suffer from many, especially the mother of all, my-side bias. So pleassssse send feedback.</p></article>
+    <article class="card val"><h3>love and fun</h3><p>I want to be what loves becoming, what laughs, friends and has fun.</p></article>
+    <article class="card val"><h3>short</h3><p>"I am sorry that I didn't have time to write a shorter letter." Pascal said it. I try to distill knowledge into as few words as possible.</p></article>
+    <article class="card val"><h3>a peasant's reasoning</h3><p>A Polish expression: say it in the simplest possible terms. "If you can't explain it simply you don't understand it well enough." That is Richard Feynman's learning method.</p></article>
+    <article class="card val"><h3>precise</h3><p>I will prioritize precision over persuasion.</p></article>
+    <article class="card val"><h3>long-term</h3><p>I try to resist the new and select the knowledge that has a long expiry date.</p></article>
+    <article class="card val"><h3>max good</h3><p>I feel the most meaning when I am in the process, however wiggly, of attempting to create the most positive impact.</p></article>
+    <article class="card val"><h3>almost anything</h3><p>It's tough to "succeed" as a generalist. It's also the most fun.</p></article>
+  </div>
+</section>
+
+<section class="sec" id="believe">
+  <div class="card creed">
+    <h3>in my wiki we believe:</h3>
+    <ul>
+      <li>AI alignment is not the default</li>
+      <li>What we LOVE to do is work on bits that might positively affect the long-run future</li>
+      <li>The impact of various interventions follows a heavy-tailed distribution</li>
+      <li>The question is not can they reason, nor can they talk, but can they suffer</li>
+      <li>All possible views of humanity's future are wild</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="links">
+  <div class="head"><h2>ok now go click something</h2></div>
+  <div class="links">
+    <a class="btn" href="https://www.pawel.world/">pawel.world <span>the wiki</span></a>
+    <a class="btn" href="https://design.sysiak.com">design.sysiak.com <span>the design work</span></a>
+    <a class="btn" href="https://sysiak.substack.com/">Substack <span>the essays</span></a>
+    <a class="btn" href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101 <span>the big one</span></a>
+    <a class="btn" href="https://www.pawel.world/art">art <span>the portfolio</span></a>
+    <a class="btn" href="https://github.com/pawsys">GitHub <span>pawsys</span></a>
+    <a class="btn" href="https://www.linkedin.com/in/sysiak/">LinkedIn <span>say hello</span></a>
+  </div>
+  <footer class="foot">
+    <p class="q">What truths about myself are people trying to avoid telling me? <a href="https://www.linkedin.com/in/sysiak/">Send feedback.</a></p>
+    <p><a href="../index.html">all 5 versions</a> · <a href="../../index.html">back to the main page</a></p>
+  </footer>
+</section>
+
+</div>
+<script>
+(function () {
+  "use strict";
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cards = document.querySelectorAll(".card");
+
+  // tilt toward the pointer and slide the foil with it
+  Array.prototype.forEach.call(cards, function (card) {
+    var big = card.offsetWidth > 520;
+    card.addEventListener("pointermove", function (e) {
+      var r = card.getBoundingClientRect();
+      var x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+      var y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+      var amt = big ? 4 : 13;
+      card.style.setProperty("--mx", (x * 100).toFixed(1) + "%");
+      card.style.setProperty("--my", (y * 100).toFixed(1) + "%");
+      if (!calm) {
+        card.style.setProperty("--ry", ((x - .5) * amt).toFixed(2) + "deg");
+        card.style.setProperty("--rx", ((.5 - y) * amt).toFixed(2) + "deg");
+      }
+      card.classList.add("hot");
+    });
+    function rest() {
+      card.classList.remove("hot");
+      card.style.setProperty("--rx", "0deg");
+      card.style.setProperty("--ry", "0deg");
+    }
+    card.addEventListener("pointerleave", rest);
+    card.addEventListener("pointercancel", rest);
+  });
+
+  // shuffle the receipts
+  var deck = document.getElementById("deck");
+  document.getElementById("shuffle").addEventListener("click", function () {
+    var list = Array.prototype.slice.call(deck.children), i, j, t;
+    for (i = list.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      t = list[i]; list[i] = list[j]; list[j] = t;
+    }
+    list.forEach(function (c, n) {
+      c.style.setProperty("--tilt", (Math.random() * 5 - 2.5).toFixed(1) + "deg");
+      c.style.animationDelay = (n * 45) + "ms";
+      deck.appendChild(c);
+    });
+    deck.classList.remove("deal");
+    void deck.offsetWidth;
+    deck.classList.add("deal");
+  });
+})();
+</script>
+</body>
+</html>

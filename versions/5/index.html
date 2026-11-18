@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pav.sh ▮ Paweł Sysiak</title>
+<meta name="description" content="Paweł Sysiak, pav for short. Designer, writer, art background, interested in almost anything.">
+<meta name="theme-color" content="#1028D0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231028D0'/%3E%3Cpath d='M14 20l14 12-14 12' fill='none' stroke='%23FFE94A' stroke-width='7'/%3E%3Crect x='34' y='40' width='18' height='7' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1028D0;
+  --deep: #0A1CA6;
+  --white: #FFFFFF;
+  --dim: #BCC6FF;
+  --yellow: #FFE94A;
+  --mono: "Martian Mono", ui-monospace, Menlo, Consolas, monospace;
+  --pad: clamp(16px, 5vw, 72px);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--blue); }
+body {
+  margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column;
+  color: var(--white); background: var(--blue);
+  font: 400 13px/1.75 var(--mono); font-stretch: 84%;
+}
+::selection { background: var(--yellow); color: var(--blue); }
+p, h1, h2, h3, ul, dl, dd, figure, pre { margin: 0; }
+ul { list-style: none; padding: 0; }
+a { color: var(--yellow); text-underline-offset: 3px; }
+a:hover { background: var(--yellow); color: var(--blue); text-decoration: none; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+button { font: inherit; font-stretch: inherit; color: inherit; cursor: pointer; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+.bar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; gap: 12px; padding: 9px var(--pad); background: var(--blue); border-bottom: 1px dashed var(--dim); font-weight: 600; }
+.bar nav { display: flex; gap: 14px; }
+
+main { flex: 1; padding: 22px var(--pad) 26px; max-width: 1040px; width: 100%; }
+.banner { font: 800 clamp(13px, 4.7vw, 40px)/1 var(--mono); font-stretch: 100%; color: var(--yellow); white-space: pre; overflow: hidden; }
+.sub { color: var(--dim); margin-top: 12px; }
+
+.cmd { margin-top: 26px; font-weight: 700; }
+.ps1 { color: var(--yellow); }
+.cmd.typing::after { content: "▮"; color: var(--yellow); animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.blk.wait > :not(.cmd) { display: none; }
+.blk { scroll-margin-top: 52px; }
+.res { margin-top: 8px; }
+.res > * + * { margin-top: 12px; }
+.res h2 { font: 700 1em/1.75 var(--mono); font-stretch: inherit; color: var(--dim); }
+.res h2::before { content: "# "; }
+.big { font-size: clamp(22px, 6.4vw, 44px); line-height: 1.15; font-weight: 800; font-stretch: 100%; }
+.big b { color: var(--yellow); font-weight: 800; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.tags li, .tag { background: var(--white); color: var(--blue); padding: 0 8px; font-weight: 700; }
+.dim { color: var(--dim); }
+.wide { max-width: 68ch; }
+.err { color: var(--yellow); }
+
+/* receipts and values: two columns on wide screens, stacked on phones */
+.rows > li, .defs > div { padding: 12px 0; border-top: 1px dashed rgba(188, 198, 255, .55); }
+.rows h3, .defs dt { font: 800 1.12em/1.5 var(--mono); font-stretch: inherit; color: var(--yellow); }
+.rows .tag { display: inline-block; margin-bottom: 4px; }
+.rows a::before, .list a::before { content: "-> "; }
+
+.pics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 14px; align-items: end; }
+.pic { cursor: pointer; }
+.pic div { background: var(--blue); border: 1px solid var(--white); }
+.pic img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.15); mix-blend-mode: screen; transition: filter .25s; }
+.pic:hover img, .pic.color img { filter: none; mix-blend-mode: normal; }
+.pic figcaption { margin-top: 6px; line-height: 1.5; }
+.pic b { display: block; color: var(--yellow); }
+
+.creed li { padding-left: 2.2ch; text-indent: -2.2ch; font-weight: 600; }
+.creed li::before { content: "> "; color: var(--yellow); }
+.list li { display: flex; flex-wrap: wrap; gap: 0 14px; padding: 3px 0; }
+.list span { color: var(--dim); }
+.help li { display: grid; grid-template-columns: 10ch minmax(0, 1fr); gap: 0 12px; padding: 2px 0; }
+.k { background: none; border: 0; padding: 0; color: var(--yellow); text-align: left; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.k:hover { background: var(--yellow); color: var(--blue); }
+
+/* the prompt, pinned to the bottom */
+.dock { position: sticky; bottom: 0; z-index: 5; padding: 10px var(--pad) 12px; background: var(--deep); border-top: 1px dashed var(--dim); }
+html:not(.js) .dock { display: none; }
+.js #src { display: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.chips button { padding: 2px 9px; background: none; border: 1px solid var(--dim); font-weight: 600; }
+.chips button:hover { background: var(--yellow); border-color: var(--yellow); color: var(--blue); }
+.dock form { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.dock input { flex: 1; min-width: 0; padding: 4px 0; background: none; border: 0; border-bottom: 1px solid transparent; color: var(--white); caret-color: var(--yellow); font: 700 16px/1.4 var(--mono); font-stretch: 84%; }
+.dock input::placeholder { color: var(--dim); opacity: .8; font-weight: 400; }
+.dock input:focus { outline: none; border-bottom-color: var(--yellow); }
+
+@media (max-width: 759px) {
+  .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: calc(-1 * var(--pad)); padding-right: var(--pad); }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips button { flex: none; padding: 4px 10px; }
+}
+@media (min-width: 760px) {
+  body { font-size: 14.5px; }
+  .rows > li { display: grid; grid-template-columns: 15ch minmax(0, 1fr); gap: 0 18px; }
+  .rows .tag { justify-self: start; align-self: start; margin-top: 3px; }
+  .defs > div { display: grid; grid-template-columns: 26ch minmax(0, 1fr); gap: 0 18px; }
+  .pics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmd.typing::after { animation: none; }
+  .pic img { transition: none; }
+}
+</style>
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+
+<header class="bar">
+  <span>pav.sh</span>
+  <nav aria-label="Other versions"><a href="../index.html">all 5</a><a href="../../index.html">main page</a></nav>
+</header>
+
+<main>
+  <h1 class="sr">pav</h1>
+<pre class="banner" aria-hidden="true">pppppp    aaaaaa  vv   vv
+pp   pp  aa   aa  vv   vv
+pp   pp  aa   aa  vv   vv
+pp   pp  aa   aa   vv vv
+pppppp    aaaaaa    vvv
+pp
+pp</pre>
+  <p class="sub">learn | write | scheme | design | overcome bias | love + fun | keep it short | max good</p>
+
+  <div id="out" aria-live="polite"></div>
+
+  <div id="src">
+    <section data-cmd="whoami">
+      <p class="cmd"><span class="ps1">pav ~ $</span> whoami</p>
+      <div class="res">
+        <p class="big">hi, i'm <b>pav</b></p>
+        <p><b>Paweł Sysiak.</b> pav for short.<br>designer. writer. art background. interested in almost anything.</p>
+        <ul class="tags"><li>certified generalist</li><li>grown in Poland</li><li>160k views</li></ul>
+        <p class="dim">// how to survive being interested in almost anything?</p>
+        <h2>the short version, in my own words</h2>
+        <p class="wide">My name is Paweł, or pav for short. I learn, write, and am scheming how to improve epistemics and collective coordination using technology. I am currently working at <a href="https://softmax.com">Softmax</a>. I do <a href="https://design.sysiak.com">UI / UX design</a>, wrote <a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101</a> and have a background in <a href="https://www.pawel.world/art">art</a>. I grew up in Poland and live between the US and EU.</p>
+      </div>
+    </section>
+
+    <section data-cmd="receipts">
+      <p class="cmd"><span class="ps1">pav ~ $</span> receipts</p>
+      <div class="res">
+        <h2>receipts: stuff i made and did</h2>
+        <ul class="rows">
+          <li><span class="tag">now</span><div><h3>Softmax</h3><p>Product design for AI systems.</p><a href="https://softmax.com">softmax.com</a></div></li>
+          <li><span class="tag">10+ years</span><div><h3>shipping products</h3><p>Rebuilt the design system at Plume and shaped products reaching 1B+ devices. Also BlackRock.</p><a href="https://design.sysiak.com">see the design work</a></div></li>
+          <li><span class="tag">essay</span><div><h3>AI Revolution 101</h3><p>In 2016 I squeezed Tim Urban's two-part Wait But Why essay to a third of its length, with their approval, and added new animations. A 35 minute read that reached 160k+ people.</p><a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">read it</a></div></li>
+          <li><span class="tag">wiki</span><div><h3>pawel.world</h3><p>My personal wiki, live since January 2020. I try to distill the most impactful knowledge: cognitive biases, mental models, well-being, collective coordination.</p><a href="https://www.pawel.world/">get lost in it</a></div></li>
+          <li><span class="tag">coordination</span><div><h3>helping groups decide</h3><p>Led user research on AI alignment tooling at AI Objectives Institute. Built coordination systems for collective decision-making with Plurality Institute.</p><a href="https://pawsys.github.io/pawel-design/coordination/">case study</a></div></li>
+          <li><span class="tag">film</span><div><h3>How Art Works?</h3><p>A serious movie about problems and solutions. A co-created 12 minute film on the art world, global culture and metaphysics. Went viral in the art corner of the internet. 35k+ views.</p><a href="https://youtu.be/JZ-eSTuf7Ko">watch it</a></div></li>
+          <li><span class="tag">gallery</span><div><h3>Billy Gallery</h3><p>An internet art project I led, exploring how art can exist online. Exhibitions, events, trips, screenings, memes.</p><a href="https://billygallery.super.site/">visit Billy</a></div></li>
+          <li><span class="tag">app</span><div><h3>Brutu timer</h3><p>An iOS timer that burns your money if you leave the app. Stay focused or pay up.</p><a href="https://pawsys.github.io/pawel-design/brutu/">see the project</a></div></li>
+          <li><span class="tag">writing</span><div><h3>Substack</h3><p>Every subscription, free or paid, feels v meaningful.</p><a href="https://sysiak.substack.com/">subscribe</a></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section data-cmd="art">
+      <p class="cmd"><span class="ps1">pav ~ $</span> art</p>
+      <div class="res">
+        <h2>the art era: with all my heart i believe in art</h2>
+        <p class="wide">I worked as an artist creating sculptures, installations, and conceptual art. Some of my work lives in the collection of the Museum of Modern Art in Warsaw. I showed in Warsaw, Beirut, Ljubljana and Prague.</p>
+        <div class="pics">
+          <figure class="pic"><div><img src="../../art/i-believe-in-art-with-all-my-heart.webp" width="1100" height="737" alt="A yellow football jersey, one long goalkeeper arm, a fishing rod, tights and red boots arranged on a white gallery wall like a figure"></div><figcaption><b>I Believe in Art With All My Heart</b>performance, mixed media</figcaption></figure>
+          <figure class="pic"><div><img src="../../art/every-step-is-moving-me-up.webp" width="735" height="1000" alt="A sheet of paper with coffee rings, a drawn eye, a red triangle, a small kite on a line and a paintbrush stuck into the paper"></div><figcaption><b>Every Step Is Moving Me Up</b>installation, mixed media, 210 x 100 cm</figcaption></figure>
+          <figure class="pic"><div><img src="../../art/man.webp" width="734" height="1000" alt="A white gallery with a black floor and an arrangement of a white pedestal, insulation panels, a clothes drier and small objects"></div><figcaption><b>Man</b>installation, various materials, 4.5 x 7 m</figcaption></figure>
+          <figure class="pic"><div><img src="../../art/painting-exhibition.webp" width="1100" height="737" alt="A large white panel holding a black poster, a grid of photographs, an open book, a CD and small screens, like a tiny exhibition"></div><figcaption><b>Painting-exhibition</b>exhibition on canvas, mixed media, 130 x 170 cm</figcaption></figure>
+        </div>
+        <p class="dim">// printed in blue. hover or tap a picture for full color.</p>
+        <p><a href="https://www.pawel.world/art">see the whole art portfolio</a></p>
+      </div>
+    </section>
+
+    <section data-cmd="values">
+      <p class="cmd"><span class="ps1">pav ~ $</span> values</p>
+      <div class="res">
+        <h2>values + directions: the stuff i care about</h2>
+        <dl class="defs">
+          <div><dt>overcoming bias</dt><dd>I am sure I suffer from many, especially the mother of all, my-side bias. So pleassssse send feedback.</dd></div>
+          <div><dt>love and fun</dt><dd>I want to be what loves becoming, what laughs, friends and has fun.</dd></div>
+          <div><dt>short</dt><dd>"I am sorry that I didn't have time to write a shorter letter." Pascal said it. I try to distill knowledge into as few words as possible.</dd></div>
+          <div><dt>a peasant's reasoning</dt><dd>A Polish expression: say it in the simplest possible terms. "If you can't explain it simply you don't understand it well enough." That is Richard Feynman's learning method.</dd></div>
+          <div><dt>precise</dt><dd>I will prioritize precision over persuasion.</dd></div>
+          <div><dt>long-term</dt><dd>I try to resist the new and select the knowledge that has a long expiry date.</dd></div>
+          <div><dt>max good</dt><dd>I feel the most meaning when I am in the process, however wiggly, of attempting to create the most positive impact.</dd></div>
+          <div><dt>almost anything</dt><dd>It's tough to "succeed" as a generalist. It's also the most fun.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section data-cmd="believe">
+      <p class="cmd"><span class="ps1">pav ~ $</span> believe</p>
+      <div class="res">
+        <h2>in my wiki we believe:</h2>
+        <ul class="creed">
+          <li>AI alignment is not the default</li>
+          <li>What we LOVE to do is work on bits that might positively affect the long-run future</li>
+          <li>The impact of various interventions follows a heavy-tailed distribution</li>
+          <li>The question is not can they reason, nor can they talk, but can they suffer</li>
+          <li>All possible views of humanity's future are wild</li>
+        </ul>
+      </div>
+    </section>
+
+    <section data-cmd="links">
+      <p class="cmd"><span class="ps1">pav ~ $</span> links</p>
+      <div class="res">
+        <h2>ok now go click something</h2>
+        <ul class="list">
+          <li><a href="https://www.pawel.world/">pawel.world</a><span>the wiki</span></li>
+          <li><a href="https://design.sysiak.com">design.sysiak.com</a><span>the design work</span></li>
+          <li><a href="https://sysiak.substack.com/">Substack</a><span>the essays</span></li>
+          <li><a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101</a><span>the big one</span></li>
+          <li><a href="https://www.pawel.world/art">art</a><span>the portfolio</span></li>
+          <li><a href="https://github.com/pawsys">GitHub</a><span>pawsys</span></li>
+          <li><a href="https://www.linkedin.com/in/sysiak/">LinkedIn</a><span>say hello</span></li>
+        </ul>
+        <p class="wide">What truths about myself are people trying to avoid telling me? <a href="https://www.linkedin.com/in/sysiak/">Send feedback.</a></p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="dock">
+  <div class="chips" id="chips" aria-label="Commands">
+    <button type="button" data-run="help">help</button>
+    <button type="button" data-run="whoami">whoami</button>
+    <button type="button" data-run="receipts">receipts</button>
+    <button type="button" data-run="art">art</button>
+    <button type="button" data-run="values">values</button>
+    <button type="button" data-run="believe">believe</button>
+    <button type="button" data-run="links">links</button>
+    <button type="button" data-run="all">all</button>
+    <button type="button" data-run="clear">clear</button>
+  </div>
+  <form id="f">
+    <label class="ps1" for="in">pav ~ $</label>
+    <input id="in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" placeholder="type a command or tap one">
+  </form>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var out = document.getElementById("out");
+  var input = document.getElementById("in");
+  var order = ["whoami", "receipts", "art", "values", "believe", "links"];
+  var about = {
+    whoami: "who is this", receipts: "stuff i made and did", art: "the art era", values: "the stuff i care about",
+    believe: "in my wiki we believe", links: "go click something", all: "everything at once", clear: "wipe the screen"
+  };
+  var alias = { ls: "help", "?": "help", hi: "whoami", hello: "whoami", about: "whoami", work: "receipts" };
+  var past = [], at = 0;
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text) n.textContent = text;
+    return n;
+  }
+  function result(name) {
+    return document.querySelector('#src [data-cmd="' + name + '"] .res').cloneNode(true);
+  }
+  function help() {
+    var res = el("div", "res"), ul = el("ul", "help");
+    Object.keys(about).forEach(function (k) {
+      var li = el("li"), b = el("button", "k", k);
+      b.type = "button";
+      b.setAttribute("data-run", k);
+      li.appendChild(b);
+      li.appendChild(el("span", "", about[k]));
+      ul.appendChild(li);
+    });
+    res.appendChild(ul);
+    return res;
+  }
+
+  function run(raw, typed) {
+    var said = raw.trim();
+    if (!said) return;
+    var cmd = said.toLowerCase();
+    cmd = alias[cmd] || cmd;
+    if (cmd === "clear") { out.textContent = ""; window.scrollTo(0, 0); return; }
+
+    var blk = el("div", "blk"), line = el("p", "cmd"), word = document.createTextNode("");
+    line.appendChild(el("span", "ps1", "pav ~ $"));
+    line.appendChild(document.createTextNode(" "));
+    line.appendChild(word);
+    blk.appendChild(line);
+
+    if (cmd === "help") blk.appendChild(help());
+    else if (cmd === "all") order.forEach(function (n) { blk.appendChild(result(n)); });
+    else if (order.indexOf(cmd) > -1) blk.appendChild(result(cmd));
+    else blk.appendChild(el("p", "res err", "command not found: " + said + ". try help"));
+    out.appendChild(blk);
+
+    if (typed && !calm) {
+      var i = 0;
+      blk.classList.add("wait");
+      line.classList.add("typing");
+      (function tick() {
+        word.data = said.slice(0, ++i);
+        if (i < said.length) return setTimeout(tick, 85);
+        setTimeout(function () { blk.classList.remove("wait"); line.classList.remove("typing"); }, 320);
+      })();
+    } else {
+      word.data = said;
+      if (!typed) blk.scrollIntoView({ block: "start", behavior: calm ? "auto" : "smooth" });
+    }
+  }
+
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-run]"), pic = e.target.closest(".pic");
+    if (b) run(b.getAttribute("data-run"));
+    else if (pic) pic.classList.toggle("color");
+  });
+  document.getElementById("f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (input.value.trim()) { past.push(input.value); at = past.length; }
+    run(input.value);
+    input.value = "";
+  });
+  input.addEventListener("keydown", function (e) {
+    if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+    e.preventDefault();
+    at = Math.max(0, Math.min(past.length, at + (e.key === "ArrowUp" ? -1 : 1)));
+    input.value = past[at] || "";
+  });
+
+  var first = location.hash.slice(1);
+  run(about[first] && first !== "clear" ? first : "whoami", true);
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) input.focus({ preventScroll: true });
+})();
+</script>
+</body>
+</html>

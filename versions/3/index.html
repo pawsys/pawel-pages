@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pavOS ✿ Paweł Sysiak</title>
+<meta name="description" content="Paweł Sysiak, pav for short. Designer, writer, art background, interested in almost anything.">
+<meta name="theme-color" content="#8FE9DC">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='8' width='56' height='48' fill='%23F7F2FF' stroke='%232B1B5A' stroke-width='4'/%3E%3Crect x='4' y='8' width='56' height='14' fill='%2338C9B7' stroke='%232B1B5A' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #2B1B5A;
+  --teal: #8FE9DC;
+  --teal-deep: #38C9B7;
+  --lav: #B9A7FF;
+  --peach: #FFD3AE;
+  --coral: #FF8370;
+  --sun: #FFE27A;
+  --win: #F7F2FF;
+  --face: #E4DAFF;
+  --px: "Pixelify Sans", "Courier New", monospace;
+  --body: Verdana, Geneva, Tahoma, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  color: var(--ink);
+  font: 13px/1.55 var(--body);
+  background: linear-gradient(180deg, var(--teal) 0%, #C7BEFF 46%, var(--peach) 78%, #FFB7A1 100%) fixed;
+  overflow-x: hidden;
+}
+a { color: #4B2BD6; }
+a:hover { color: var(--coral); }
+a:focus-visible, button:focus-visible { outline: 2px dashed var(--ink); outline-offset: 2px; }
+p, h1, h2, h3, ul, figure { margin: 0; }
+img { display: block; max-width: 100%; height: auto; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+/* wallpaper: a striped sun over a grid floor */
+.sunset { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.sunset .sun {
+  position: absolute; left: 50%; bottom: 24vh; width: min(52vh, 70vw); aspect-ratio: 1; transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--sun) 0%, #FFB86B 45%, var(--coral) 100%);
+  -webkit-mask: linear-gradient(180deg, #000 0 52%, transparent 52% 55%, #000 55% 63%, transparent 63% 67%, #000 67% 74%, transparent 74% 79%, #000 79% 85%, transparent 85% 91%, #000 91% 95%, transparent 95%);
+  mask: linear-gradient(180deg, #000 0 52%, transparent 52% 55%, #000 55% 63%, transparent 63% 67%, #000 67% 74%, transparent 74% 79%, #000 79% 85%, transparent 85% 91%, #000 91% 95%, transparent 95%);
+}
+.sunset .floor {
+  position: absolute; left: -50%; right: -50%; bottom: 0; height: 30vh;
+  background:
+    repeating-linear-gradient(90deg, rgba(43, 27, 90, .5) 0 2px, transparent 2px 80px),
+    repeating-linear-gradient(180deg, rgba(43, 27, 90, .5) 0 2px, transparent 2px 44px),
+    linear-gradient(180deg, #FF9FB6, #B9A7FF);
+  transform: perspective(380px) rotateX(58deg);
+  transform-origin: 50% 0;
+  border-top: 3px solid var(--ink);
+}
+
+.desk { position: relative; z-index: 1; min-height: 100vh; min-height: 100dvh; padding: 14px 12px 64px; }
+
+/* desktop icons */
+.icons { display: flex; flex-wrap: wrap; gap: 6px 4px; margin-bottom: 12px; }
+.icons button { width: 82px; background: none; border: 1px dotted transparent; padding: 6px 2px; display: grid; justify-items: center; gap: 4px; font: 600 13px/1.1 var(--px); text-shadow: 1px 1px 0 #fff; }
+.icons button:hover, .icons button:focus-visible { border-color: var(--ink); background: rgba(255, 255, 255, .35); }
+.icons svg { width: 38px; height: 38px; }
+
+/* windows */
+.win { background: var(--win); border: 2px solid var(--ink); box-shadow: 6px 6px 0 rgba(43, 27, 90, .38); margin-bottom: 18px; display: flex; flex-direction: column; }
+.bar {
+  display: flex; align-items: center; gap: 8px; padding: 4px 4px 4px 9px;
+  font: 700 15px/1 var(--px); color: #fff; text-shadow: 1px 1px 0 var(--ink);
+  background: linear-gradient(90deg, var(--teal-deep), var(--lav));
+  border-bottom: 2px solid var(--ink);
+  touch-action: none; user-select: none; -webkit-user-select: none;
+}
+.win.front .bar { background: linear-gradient(90deg, #7B4DFF, #FF7FB8); }
+.bar span { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 3px 0; }
+.bar button { flex: none; width: 22px; height: 20px; padding: 0; font: 700 13px/1 var(--px); color: var(--ink); background: var(--face); border: 2px solid; border-color: #fff var(--ink) var(--ink) #fff; }
+.bar button:active { border-color: var(--ink) #fff #fff var(--ink); }
+.pane { padding: 14px; overflow: auto; min-height: 0; }
+.pane.flush { padding: 0; }
+
+.btn { display: inline-block; text-decoration: none; font: 600 14px/1 var(--px); color: var(--ink); padding: 7px 14px; background: var(--face); border: 2px solid; border-color: #fff var(--ink) var(--ink) #fff; box-shadow: 0 0 0 1px var(--ink); }
+.btn:hover { background: var(--sun); color: var(--ink); }
+.btn:active { border-color: var(--ink) #fff #fff var(--ink); }
+
+/* hello.txt */
+.hello { font: 600 18px/1 var(--px); }
+.name {
+  font: 700 clamp(5.4rem, 24vw, 8.5rem)/.8 var(--px);
+  letter-spacing: -.02em;
+  background: linear-gradient(180deg, #7B4DFF 20%, #FF7FB8 60%, #FFB86B 90%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(4px 4px 0 var(--ink));
+  padding-bottom: .14em;
+  margin: 2px 0 6px;
+}
+.aka { font-size: 15px; }
+.pitch { font-weight: bold; margin-top: 4px; }
+.pitch mark { background: var(--sun); color: inherit; padding: 0 3px; }
+.rule { border: 0; border-top: 2px dotted var(--lav); margin: 12px 0; }
+.sub { font: 600 14px/1.2 var(--px); color: #7B4DFF; margin-bottom: 6px; }
+
+/* receipts as a file list */
+.files { list-style: none; padding: 0; }
+.files li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 2px 10px; padding: 10px 12px; border-bottom: 1px solid var(--face); }
+.files li:nth-child(even) { background: #EFE8FF; }
+.files svg { width: 28px; height: 28px; grid-row: span 3; }
+.files h3 { font: 700 16px/1.2 var(--px); }
+.files h3 small { font: 400 12px/1 var(--px); background: var(--teal); border: 1px solid var(--ink); padding: 1px 5px; margin-left: 6px; vertical-align: 2px; white-space: nowrap; }
+.files a { justify-self: start; font-weight: bold; }
+.status { display: flex; gap: 14px; justify-content: space-between; padding: 4px 10px; font: 400 13px/1.3 var(--px); border-top: 2px solid var(--ink); background: var(--face); }
+
+/* art viewer */
+.viewer { background: #1E143F; display: grid; place-items: center; padding: 10px; }
+.viewer img { max-height: 300px; width: auto; border: 2px solid #fff; }
+.cap { font-weight: bold; margin-top: 10px; }
+.cap span { display: block; font-weight: normal; color: #6A5AA8; }
+.ctl { display: flex; align-items: center; gap: 8px; margin: 10px 0; font: 600 14px/1 var(--px); }
+.ctl output { flex: 1; text-align: center; }
+html:not(.js) .ctl { display: none; }
+.stack figure + figure { margin-top: 14px; }
+.js .stack figure:not(.on) { display: none; }
+
+/* values as notes */
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.notes article { padding: 10px; background: var(--sun); border: 1px solid var(--ink); box-shadow: 3px 3px 0 rgba(43, 27, 90, .25); }
+.notes article:nth-child(3n+2) { background: var(--teal); }
+.notes article:nth-child(3n) { background: #FFC2DD; }
+.notes h3 { font: 700 15px/1.2 var(--px); margin-bottom: 3px; }
+
+/* believe.exe */
+.dialog { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; align-items: start; }
+.dialog svg { width: 44px; height: 44px; }
+.dialog ul { list-style: none; padding: 0; margin-top: 6px; display: grid; gap: 8px; font-weight: bold; font-size: 14px; }
+.js .dialog li:not(.on) { display: none; }
+.js .dialog li { min-height: 4.7em; }
+.dialog .row { display: flex; align-items: center; gap: 10px; margin-top: 10px; font: 400 13px/1 var(--px); }
+html:not(.js) .dialog .row { display: none; }
+
+/* links */
+.shortcuts { list-style: none; padding: 0; display: grid; gap: 6px; }
+.shortcuts a { display: flex; justify-content: space-between; gap: 10px; padding: 7px 9px; text-decoration: none; border: 1px solid transparent; font-weight: bold; }
+.shortcuts a:hover { border: 1px dotted var(--ink); background: var(--sun); color: var(--ink); }
+.shortcuts span { font-weight: normal; color: #6A5AA8; }
+.ask { margin-top: 12px; padding-top: 10px; border-top: 2px dotted var(--lav); }
+
+/* taskbar */
+.task { position: fixed; z-index: 9000; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 6px; padding: 5px 6px; background: var(--face); border-top: 2px solid var(--ink); box-shadow: inset 0 2px 0 #fff; font: 600 14px/1 var(--px); }
+.task button, .task a.tb { flex: none; padding: 6px 10px; background: var(--face); border: 2px solid; border-color: #fff var(--ink) var(--ink) #fff; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.task .start { font-weight: 700; background: linear-gradient(90deg, var(--teal), var(--lav)); }
+.task .tabs { display: flex; gap: 4px; flex: 1; min-width: 0; overflow: hidden; }
+.task .tabs button { min-width: 0; overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
+.task .tabs button.on { border-color: var(--ink) #fff #fff var(--ink); background: #fff; }
+.task time { flex: none; padding: 6px 8px; border: 2px solid; border-color: var(--ink) #fff #fff var(--ink); }
+.menu { position: fixed; z-index: 9001; left: 6px; bottom: 44px; width: 220px; background: var(--win); border: 2px solid var(--ink); box-shadow: 6px 6px 0 rgba(43, 27, 90, .38); padding: 6px; display: none; font: 600 15px/1 var(--px); }
+.menu.open { display: grid; gap: 2px; }
+.menu a { padding: 9px 10px; text-decoration: none; color: var(--ink); }
+.menu a:hover { background: #7B4DFF; color: #fff; }
+.menu p { font: 400 12px/1.3 var(--px); padding: 6px 10px; border-top: 2px dotted var(--lav); margin-top: 4px; }
+
+/* phones: everything stacks into one column of windows */
+@media (max-width: 899px) {
+  .task .tabs { visibility: hidden; }
+  .bar .x { display: none; }
+  .pane { max-height: none !important; }
+}
+
+/* big screens: a real desktop, drag things around */
+@media (min-width: 900px) {
+  body { overflow: hidden; }
+  .desk { height: 100vh; padding: 0; }
+  .icons { position: absolute; left: 14px; top: 14px; width: 90px; flex-direction: column; margin: 0; }
+  .win { position: absolute; margin: 0; left: var(--x); top: var(--y); width: var(--w); max-height: calc(100vh - 60px); }
+  .win.closed { display: none; }
+  .bar { cursor: grab; }
+  .win.drag .bar { cursor: grabbing; }
+  #w-hello { --x: 128px; --y: 26px; --w: 400px; }
+  #w-art { --x: calc(100vw - 500px); --y: 22px; --w: 470px; }
+  #w-receipts { --x: calc(50vw - 176px); --y: 250px; --w: 384px; }
+  #w-receipts .pane { max-height: min(400px, calc(100vh - 380px)); }
+  #w-believe { --x: 150px; --y: calc(100vh - 290px); --w: 400px; }
+  #w-values { --x: calc(50vw - 330px); --y: 70px; --w: 660px; }
+  #w-values .pane { max-height: calc(100vh - 200px); }
+  #w-links { --x: calc(100vw - 420px); --y: calc(100vh - 470px); --w: 360px; }
+}
+@media (min-width: 900px) and (max-height: 760px) {
+  .viewer img { max-height: 200px; }
+  #w-hello .pane { max-height: calc(100vh - 110px); }
+}
+</style>
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+
+<div class="sunset" aria-hidden="true"><div class="sun"></div><div class="floor"></div></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-doc" viewBox="0 0 32 32"><path d="M6 2h14l6 6v22H6z" fill="#fff" stroke="#2B1B5A" stroke-width="2"/><path d="M20 2v6h6M10 14h12M10 19h12M10 24h8" fill="none" stroke="#2B1B5A" stroke-width="2"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 32 32"><path d="M2 6h11l3 4h14v18H2z" fill="#FFE27A" stroke="#2B1B5A" stroke-width="2"/><path d="M2 13h28" stroke="#2B1B5A" stroke-width="2"/></symbol>
+  <symbol id="i-pic" viewBox="0 0 32 32"><path d="M3 5h26v22H3z" fill="#8FE9DC" stroke="#2B1B5A" stroke-width="2"/><circle cx="22" cy="11" r="3" fill="#FFE27A" stroke="#2B1B5A" stroke-width="2"/><path d="M3 24l8-9 6 6 4-4 8 8v2H3z" fill="#B9A7FF" stroke="#2B1B5A" stroke-width="2"/></symbol>
+  <symbol id="i-note" viewBox="0 0 32 32"><path d="M4 4h24v18l-6 6H4z" fill="#FFC2DD" stroke="#2B1B5A" stroke-width="2"/><path d="M28 22h-6v6M9 11h14M9 16h14" fill="none" stroke="#2B1B5A" stroke-width="2"/></symbol>
+  <symbol id="i-bang" viewBox="0 0 32 32"><path d="M16 3l14 25H2z" fill="#FFE27A" stroke="#2B1B5A" stroke-width="2" stroke-linejoin="round"/><path d="M16 12v8M16 23v2" stroke="#2B1B5A" stroke-width="3"/></symbol>
+  <symbol id="i-web" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="#8FE9DC" stroke="#2B1B5A" stroke-width="2"/><path d="M3 16h26M16 3c-7 7-7 19 0 26M16 3c7 7 7 19 0 26" fill="none" stroke="#2B1B5A" stroke-width="2"/></symbol>
+</svg>
+
+<div class="desk" id="desk">
+
+  <nav class="icons" aria-label="Open a window">
+    <button type="button" data-open="w-hello"><svg><use href="#i-doc"/></svg>hello.txt</button>
+    <button type="button" data-open="w-receipts"><svg><use href="#i-folder"/></svg>receipts</button>
+    <button type="button" data-open="w-art"><svg><use href="#i-pic"/></svg>art era</button>
+    <button type="button" data-open="w-values"><svg><use href="#i-note"/></svg>values</button>
+    <button type="button" data-open="w-believe"><svg><use href="#i-bang"/></svg>believe.exe</button>
+    <button type="button" data-open="w-links"><svg><use href="#i-web"/></svg>links</button>
+  </nav>
+
+  <section class="win" id="w-hello" data-title="hello.txt">
+    <div class="bar"><span>hello.txt</span><button type="button" class="x" aria-label="Close hello.txt">x</button></div>
+    <div class="pane">
+      <p class="hello">hi, i'm</p>
+      <h1 class="name">pav</h1>
+      <p class="aka"><b>Paweł Sysiak.</b> pav for short.</p>
+      <p class="pitch">designer. writer. art background. <mark>interested in almost anything.</mark></p>
+      <hr class="rule">
+      <p class="sub">the short version, in my own words</p>
+      <p>My name is Paweł, or pav for short. I learn, write, and am scheming how to improve epistemics and collective coordination using technology. I am currently working at <a href="https://softmax.com">Softmax</a>. I do <a href="https://design.sysiak.com">UI / UX design</a>, wrote <a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101</a> and have a background in <a href="https://www.pawel.world/art">art</a>. I grew up in Poland and live between the US and EU.</p>
+    </div>
+  </section>
+
+  <section class="win" id="w-receipts" data-title="receipts">
+    <div class="bar"><span>receipts: stuff i made and did</span><button type="button" class="x" aria-label="Close receipts">x</button></div>
+    <div class="pane flush">
+      <ul class="files">
+        <li><svg><use href="#i-web"/></svg><h3>Softmax <small>now</small></h3><p>Product design for AI systems.</p><a href="https://softmax.com">softmax.com</a></li>
+        <li><svg><use href="#i-folder"/></svg><h3>shipping products <small>10+ years</small></h3><p>Rebuilt the design system at Plume and shaped products reaching 1B+ devices. Also BlackRock.</p><a href="https://design.sysiak.com">see the design work</a></li>
+        <li><svg><use href="#i-doc"/></svg><h3>AI Revolution 101 <small>essay</small></h3><p>In 2016 I squeezed Tim Urban's two-part Wait But Why essay to a third of its length, with their approval, and added new animations. A 35 minute read that reached 160k+ people.</p><a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">read it</a></li>
+        <li><svg><use href="#i-web"/></svg><h3>pawel.world <small>wiki</small></h3><p>My personal wiki, live since January 2020. I try to distill the most impactful knowledge: cognitive biases, mental models, well-being, collective coordination.</p><a href="https://www.pawel.world/">get lost in it</a></li>
+        <li><svg><use href="#i-folder"/></svg><h3>helping groups decide <small>coordination</small></h3><p>Led user research on AI alignment tooling at AI Objectives Institute. Built coordination systems for collective decision-making with Plurality Institute.</p><a href="https://pawsys.github.io/pawel-design/coordination/">case study</a></li>
+        <li><svg><use href="#i-pic"/></svg><h3>How Art Works? <small>film</small></h3><p>A serious movie about problems and solutions. A co-created 12 minute film on the art world, global culture and metaphysics. Went viral in the art corner of the internet. 35k+ views.</p><a href="https://youtu.be/JZ-eSTuf7Ko">watch it</a></li>
+        <li><svg><use href="#i-pic"/></svg><h3>Billy Gallery <small>gallery</small></h3><p>An internet art project I led, exploring how art can exist online. Exhibitions, events, trips, screenings, memes.</p><a href="https://billygallery.super.site/">visit Billy</a></li>
+        <li><svg><use href="#i-bang"/></svg><h3>Brutu timer <small>app</small></h3><p>An iOS timer that burns your money if you leave the app. Stay focused or pay up.</p><a href="https://pawsys.github.io/pawel-design/brutu/">see the project</a></li>
+        <li><svg><use href="#i-note"/></svg><h3>Substack <small>writing</small></h3><p>Every subscription, free or paid, feels v meaningful.</p><a href="https://sysiak.substack.com/">subscribe</a></li>
+      </ul>
+    </div>
+    <div class="status"><span>9 items</span><span>scroll for more</span></div>
+  </section>
+
+  <section class="win" id="w-art" data-title="art era">
+    <div class="bar"><span>the art era: with all my heart i believe in art</span><button type="button" class="x" aria-label="Close art era">x</button></div>
+    <div class="pane">
+      <div class="stack" id="stack">
+        <figure class="on"><div class="viewer"><img src="../../art/i-believe-in-art-with-all-my-heart.webp" width="1100" height="737" alt="A yellow football jersey, one long goalkeeper arm, a fishing rod, tights and red boots arranged on a white gallery wall like a figure"></div><figcaption class="cap">I Believe in Art With All My Heart <span>performance, mixed media</span></figcaption></figure>
+        <figure><div class="viewer"><img src="../../art/every-step-is-moving-me-up.webp" width="735" height="1000" loading="lazy" alt="A sheet of paper with coffee rings, a drawn eye, a red triangle, a small kite on a line and a paintbrush stuck into the paper"></div><figcaption class="cap">Every Step Is Moving Me Up <span>installation, mixed media, 210 x 100 cm</span></figcaption></figure>
+        <figure><div class="viewer"><img src="../../art/man.webp" width="734" height="1000" loading="lazy" alt="A white gallery with a black floor and an arrangement of a white pedestal, insulation panels, a clothes drier and small objects"></div><figcaption class="cap">Man <span>installation, various materials, 4.5 x 7 m</span></figcaption></figure>
+        <figure><div class="viewer"><img src="../../art/painting-exhibition.webp" width="1100" height="737" loading="lazy" alt="A large white panel holding a black poster, a grid of photographs, an open book, a CD and small screens, like a tiny exhibition"></div><figcaption class="cap">Painting-exhibition <span>exhibition on canvas, mixed media, 130 x 170 cm</span></figcaption></figure>
+      </div>
+      <div class="ctl"><button type="button" class="btn" id="prev">&lt; back</button><output id="pos">1 / 4</output><button type="button" class="btn" id="next">next &gt;</button></div>
+      <p>I worked as an artist creating sculptures, installations, and conceptual art. Some of my work lives in the collection of the Museum of Modern Art in Warsaw. I showed in Warsaw, Beirut, Ljubljana and Prague.</p>
+      <p style="margin-top:10px"><a class="btn" href="https://www.pawel.world/art">see the whole art portfolio</a></p>
+    </div>
+  </section>
+
+  <section class="win closed" id="w-values" data-title="values">
+    <div class="bar"><span>values + directions: the stuff i care about</span><button type="button" class="x" aria-label="Close values">x</button></div>
+    <div class="pane notes">
+      <article><h3>overcoming bias</h3><p>I am sure I suffer from many, especially the mother of all, my-side bias. So pleassssse send feedback.</p></article>
+      <article><h3>love and fun</h3><p>I want to be what loves becoming, what laughs, friends and has fun.</p></article>
+      <article><h3>short</h3><p>"I am sorry that I didn't have time to write a shorter letter." Pascal said it. I try to distill knowledge into as few words as possible.</p></article>
+      <article><h3>a peasant's reasoning</h3><p>A Polish expression: say it in the simplest possible terms. "If you can't explain it simply you don't understand it well enough." That is Richard Feynman's learning method.</p></article>
+      <article><h3>precise</h3><p>I will prioritize precision over persuasion.</p></article>
+      <article><h3>long-term</h3><p>I try to resist the new and select the knowledge that has a long expiry date.</p></article>
+      <article><h3>max good</h3><p>I feel the most meaning when I am in the process, however wiggly, of attempting to create the most positive impact.</p></article>
+      <article><h3>almost anything</h3><p>It's tough to "succeed" as a generalist. It's also the most fun.</p></article>
+    </div>
+  </section>
+
+  <section class="win" id="w-believe" data-title="believe.exe">
+    <div class="bar"><span>believe.exe</span><button type="button" class="x" aria-label="Close believe.exe">x</button></div>
+    <div class="pane">
+      <div class="dialog">
+        <svg><use href="#i-bang"/></svg>
+        <div>
+          <p class="sub">in my wiki we believe:</p>
+          <ul id="creed">
+            <li class="on">AI alignment is not the default</li>
+            <li>What we LOVE to do is work on bits that might positively affect the long-run future</li>
+            <li>The impact of various interventions follows a heavy-tailed distribution</li>
+            <li>The question is not can they reason, nor can they talk, but can they suffer</li>
+            <li>All possible views of humanity's future are wild</li>
+          </ul>
+          <div class="row"><button type="button" class="btn" id="ok">OK, next</button><span id="creedpos">1 of 5</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="win closed" id="w-links" data-title="links">
+    <div class="bar"><span>ok now go click something</span><button type="button" class="x" aria-label="Close links">x</button></div>
+    <div class="pane">
+      <ul class="shortcuts">
+        <li><a href="https://www.pawel.world/">pawel.world <span>the wiki</span></a></li>
+        <li><a href="https://design.sysiak.com">design.sysiak.com <span>the design work</span></a></li>
+        <li><a href="https://sysiak.substack.com/">Substack <span>the essays</span></a></li>
+        <li><a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101 <span>the big one</span></a></li>
+        <li><a href="https://www.pawel.world/art">art <span>the portfolio</span></a></li>
+        <li><a href="https://github.com/pawsys">GitHub <span>pawsys</span></a></li>
+        <li><a href="https://www.linkedin.com/in/sysiak/">LinkedIn <span>say hello</span></a></li>
+      </ul>
+      <p class="ask">What truths about myself are people trying to avoid telling me? <a href="https://www.linkedin.com/in/sysiak/">Send feedback.</a></p>
+    </div>
+  </section>
+
+</div>
+
+<div class="menu" id="menu">
+  <a href="../index.html">all five versions</a>
+  <a href="../../index.html">back to the main page</a>
+  <a href="https://www.linkedin.com/in/sysiak/">Send feedback.</a>
+  <p>pavOS. drag the windows by their title bars.</p>
+</div>
+
+<div class="task">
+  <button type="button" class="start" id="start" aria-expanded="false" aria-controls="menu">✿ pav</button>
+  <div class="tabs" id="tabs"></div>
+  <time id="clock" aria-label="Your local time">--:--</time>
+</div>
+<noscript><p style="position:relative;z-index:2;padding:0 12px 70px"><a href="../index.html">all five versions</a> · <a href="../../index.html">back to the main page</a></p></noscript>
+
+<script>
+(function () {
+  "use strict";
+  var wide = window.matchMedia("(min-width: 900px)");
+  var wins = Array.prototype.slice.call(document.querySelectorAll(".win"));
+  var tabs = document.getElementById("tabs");
+  var z = 10;
+
+  function front(w) {
+    wins.forEach(function (o) { o.classList.remove("front"); });
+    w.classList.add("front");
+    w.style.zIndex = ++z;
+    sync();
+  }
+  function sync() {
+    wins.forEach(function (w) {
+      w.tab.classList.toggle("on", !w.classList.contains("closed") && w.classList.contains("front"));
+      w.tab.style.opacity = w.classList.contains("closed") ? ".55" : "1";
+    });
+  }
+  function open(w) {
+    w.classList.remove("closed");
+    front(w);
+    if (!wide.matches) w.scrollIntoView({ block: "start" });
+  }
+
+  wins.forEach(function (w) {
+    var bar = w.querySelector(".bar");
+    var tab = document.createElement("button");
+    tab.type = "button";
+    tab.textContent = w.getAttribute("data-title");
+    tab.addEventListener("click", function () {
+      if (!w.classList.contains("closed") && w.classList.contains("front")) { w.classList.add("closed"); sync(); }
+      else open(w);
+    });
+    tabs.appendChild(tab);
+    w.tab = tab;
+
+    w.addEventListener("pointerdown", function () { front(w); });
+    w.querySelector(".x").addEventListener("click", function (e) { e.stopPropagation(); w.classList.add("closed"); w.classList.remove("front"); sync(); });
+
+    // drag by the title bar (big screens only)
+    var sx, sy, ox, oy, on = false;
+    bar.addEventListener("pointerdown", function (e) {
+      if (!wide.matches || e.target.closest("button")) return;
+      var r = w.getBoundingClientRect();
+      on = true; sx = e.clientX; sy = e.clientY; ox = r.left; oy = r.top;
+      w.classList.add("drag");
+      try { bar.setPointerCapture(e.pointerId); } catch (err) { /* nothing to capture */ }
+    });
+    bar.addEventListener("pointermove", function (e) {
+      if (!on) return;
+      var x = Math.max(-w.offsetWidth + 80, Math.min(window.innerWidth - 80, ox + e.clientX - sx));
+      var y = Math.max(0, Math.min(window.innerHeight - 80, oy + e.clientY - sy));
+      w.style.left = x + "px";
+      w.style.top = y + "px";
+    });
+    function drop() { on = false; w.classList.remove("drag"); }
+    bar.addEventListener("pointerup", drop);
+    bar.addEventListener("pointercancel", drop);
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-open]"), function (b) {
+    b.addEventListener("click", function () { open(document.getElementById(b.getAttribute("data-open"))); });
+  });
+  front(document.getElementById("w-hello"));
+
+  // art viewer
+  var pics = document.querySelectorAll("#stack figure"), at = 0, pos = document.getElementById("pos");
+  function show(n) {
+    at = (n + pics.length) % pics.length;
+    Array.prototype.forEach.call(pics, function (f, i) { f.classList.toggle("on", i === at); });
+    pos.textContent = (at + 1) + " / " + pics.length;
+  }
+  document.getElementById("prev").addEventListener("click", function () { show(at - 1); });
+  document.getElementById("next").addEventListener("click", function () { show(at + 1); });
+
+  // believe.exe: one belief per click
+  var creed = document.querySelectorAll("#creed li"), c = 0, cpos = document.getElementById("creedpos");
+  document.getElementById("ok").addEventListener("click", function () {
+    c = (c + 1) % creed.length;
+    Array.prototype.forEach.call(creed, function (li, i) { li.classList.toggle("on", i === c); });
+    cpos.textContent = (c + 1) + " of " + creed.length;
+  });
+
+  // start menu
+  var start = document.getElementById("start"), menu = document.getElementById("menu");
+  start.addEventListener("click", function (e) {
+    e.stopPropagation();
+    start.setAttribute("aria-expanded", String(menu.classList.toggle("open")));
+  });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest("#menu")) { menu.classList.remove("open"); start.setAttribute("aria-expanded", "false"); }
+  });
+
+  // clock
+  var clock = document.getElementById("clock");
+  function tick() {
+    var d = new Date();
+    clock.textContent = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+  }
+  tick();
+  setInterval(tick, 20000);
+})();
+</script>
+</body>
+</html>

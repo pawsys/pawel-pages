@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pav is typing…</title>
+<meta name="description" content="Paweł Sysiak, pav for short. Designer, writer, art background, interested in almost anything.">
+<meta name="theme-color" content="#FF5A1F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 10h48a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6H28L14 58V46H8a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6z' fill='%232447F9'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&family=Unbounded:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --tang: #FF5A1F;
+  --tang-deep: #E2410A;
+  --cream: #FFF8EC;
+  --bubble: #F1E9DA;
+  --ink: #1D1A16;
+  --cobalt: #2447F9;
+  --lime: #D2F53C;
+  --muted: #7A7062;
+  --body: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --loud: "Unbounded", "Arial Black", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--tang);
+  color: var(--ink);
+  font: 400 16px/1.4 var(--body);
+}
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--cobalt); outline-offset: 2px; }
+p, h1, h2, h3, figure { margin: 0; }
+img { display: block; max-width: 100%; height: auto; }
+
+.stage {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 40px;
+  padding: 24px;
+}
+.shout { justify-self: end; text-align: right; color: var(--cream); font: 900 clamp(2.4rem, 4.4vw, 4.4rem)/.95 var(--loud); letter-spacing: -.04em; transform: rotate(-4deg); white-space: nowrap; }
+.shout em { font-style: normal; color: var(--ink); }
+.shout .dots i { display: inline-block; font-style: normal; animation: hop 1.2s infinite; }
+.shout .dots i:nth-child(2) { animation-delay: .15s; }
+.shout .dots i:nth-child(3) { animation-delay: .3s; }
+.notes { justify-self: start; max-width: 250px; display: grid; gap: 14px; }
+.notes p { background: var(--lime); border: 2px solid var(--ink); border-radius: 18px 18px 18px 4px; padding: 10px 14px; font-weight: 500; transform: rotate(2deg); box-shadow: 4px 4px 0 var(--ink); }
+.notes p:nth-child(2) { background: var(--cream); transform: rotate(-3deg); margin-left: 22px; }
+.notes p:nth-child(3) { background: var(--cobalt); color: #fff; transform: rotate(1deg); }
+
+/* the phone */
+.phone {
+  width: min(410px, 100vw);
+  height: min(840px, calc(100vh - 48px));
+  height: min(840px, calc(100dvh - 48px));
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 42px;
+  box-shadow: 12px 14px 0 var(--tang-deep), 12px 14px 0 3px var(--ink);
+  overflow: hidden;
+}
+.top { display: flex; align-items: center; gap: 10px; padding: 14px 16px 12px; border-bottom: 2px solid var(--ink); background: #fff; }
+.back { font: 700 13px/1 var(--body); text-decoration: none; color: var(--cobalt); padding: 8px 4px; white-space: nowrap; }
+.avatar { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--lime); border: 2px solid var(--ink); display: grid; place-items: center; }
+.avatar svg { width: 26px; height: 26px; }
+.who { min-width: 0; flex: 1; }
+.who h1 { font: 900 1.25rem/1 var(--loud); letter-spacing: -.03em; }
+.who p { font-size: .74rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.who p::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #1EB85C; margin-right: 5px; }
+
+.chat { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 16px 14px 8px; display: flex; flex-direction: column; gap: 6px; scroll-behavior: smooth; }
+.topic { display: flex; flex-direction: column; gap: 6px; }
+.stamp { align-self: center; font-size: .72rem; color: var(--muted); margin: 8px 0 4px; }
+
+.msg {
+  position: relative;
+  align-self: flex-start;
+  max-width: 84%;
+  padding: 9px 13px;
+  background: var(--bubble);
+  border-radius: 20px 20px 20px 6px;
+  overflow-wrap: anywhere;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+.msg a { color: var(--cobalt); font-weight: 700; text-underline-offset: 2px; }
+.msg.me { align-self: flex-end; background: var(--cobalt); color: #fff; border-radius: 20px 20px 6px 20px; font-weight: 500; }
+.msg.loud { font: 900 2.6rem/1 var(--loud); letter-spacing: -.04em; background: var(--lime); padding: 12px 16px 14px; }
+.msg.hot { background: var(--ink); color: var(--cream); font-weight: 700; }
+.msg b { font-weight: 700; }
+.msg.loved::after { content: "♥"; position: absolute; right: -8px; bottom: -8px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; color: #fff; background: #F0245A; border: 2px solid var(--cream); animation: pop .3s cubic-bezier(.3, 2, .5, 1); }
+.msg.me.loved::after { right: auto; left: -8px; }
+
+a.card { display: block; text-decoration: none; padding: 0; overflow: hidden; background: #fff; border: 2px solid var(--ink); width: 84%; }
+.card .strip { display: block; padding: 7px 13px 6px; font: 600 .62rem/1 var(--loud); text-transform: uppercase; letter-spacing: .06em; background: var(--lime); border-bottom: 2px solid var(--ink); }
+.card:nth-of-type(3n+2) .strip { background: var(--cobalt); color: #fff; }
+.card:nth-of-type(3n) .strip { background: var(--tang); }
+.card h3 { font: 700 1.05rem/1.2 var(--body); padding: 9px 13px 0; }
+.card p { padding: 3px 13px 0; font-size: .92rem; }
+.card .go { display: block; padding: 7px 13px 10px; color: var(--cobalt); font-weight: 700; font-size: .88rem; }
+.card .go::after { content: " ↗"; }
+
+figure.pic { padding: 5px; width: 84%; }
+.pic img { width: 100%; border-radius: 16px 16px 4px 4px; }
+.pic figcaption { padding: 6px 8px 4px; font-weight: 700; font-size: .9rem; }
+.pic figcaption span { display: block; font-weight: 400; color: var(--muted); font-size: .8rem; }
+
+.linklist { display: grid; gap: 6px; padding: 10px; width: 84%; }
+.linklist a { display: flex; justify-content: space-between; gap: 10px; text-decoration: none; padding: 9px 12px; border-radius: 12px; background: #fff; border: 2px solid var(--ink); color: var(--ink); }
+.linklist a span { font-weight: 400; color: var(--muted); }
+
+.typing { align-self: flex-start; display: flex; gap: 4px; padding: 13px 14px; background: var(--bubble); border-radius: 20px 20px 20px 6px; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: hop 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; }
+.typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes hop { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
+@keyframes pop { from { transform: scale(0); } }
+@keyframes rise { from { transform: translateY(10px) scale(.96); opacity: 0; } }
+.js .msg.in, .js .stamp.in { animation: rise .28s cubic-bezier(.3, 1.4, .5, 1) both; }
+
+/* with scripting on, the chat is revealed bit by bit */
+.js .topic:not(.open) { display: none; }
+.js .topic .wait { display: none; }
+
+.replies { border-top: 2px solid var(--ink); background: #fff; padding: 10px 12px 14px; }
+.replies p { font-size: .72rem; color: var(--muted); margin: 0 4px 7px; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chips button {
+  font: 700 .9rem/1 var(--body);
+  color: var(--cobalt);
+  background: #fff;
+  border: 2px solid var(--cobalt);
+  border-radius: 999px;
+  padding: 9px 13px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.chips button:hover { background: var(--cobalt); color: #fff; }
+.chips button.all { color: var(--ink); border-color: var(--ink); border-style: dashed; }
+.chips button.all:hover { background: var(--ink); color: #fff; }
+.chips button[disabled] { opacity: .4; cursor: default; }
+.replies .done { font-size: .9rem; color: var(--ink); margin: 2px 4px; }
+.replies .done a { color: var(--cobalt); font-weight: 700; }
+html:not(.js) .replies { display: none; }
+
+@media (max-width: 1020px) {
+  .stage { grid-template-columns: minmax(0, 1fr); padding: 0; gap: 0; justify-items: center; }
+  .shout, .notes { display: none; }
+  .phone { width: 100%; max-width: 560px; height: 100vh; height: 100dvh; border-radius: 0; border-width: 0 0 0 0; box-shadow: none; }
+}
+@media (min-width: 561px) and (max-width: 1020px) {
+  .phone { border-width: 0 3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shout .dots i, .typing i, .js .msg.in, .js .stamp.in, .msg.loved::after { animation: none; }
+  .chat { scroll-behavior: auto; }
+}
+</style>
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="shout" aria-hidden="true">pav<br>is<br><em>typing</em><span class="dots"><i>.</i><i>.</i><i>.</i></span></p>
+
+  <main class="phone">
+    <header class="top">
+      <a class="back" href="../index.html" aria-label="All five versions">‹ all 5</a>
+      <div class="avatar" aria-hidden="true"><svg viewBox="-26 -36 52 76"><path d="M0-32 22-6 0 36Z" fill="#FF5A1F"/><path d="M0-32-22-6 0 36Z" fill="#2447F9"/><path d="M0-32 22-6 0 36-22-6Z" fill="none" stroke="#1D1A16" stroke-width="3" stroke-linejoin="round"/></svg></div>
+      <div class="who">
+        <h1>pav</h1>
+        <p>Paweł Sysiak. pav for short.</p>
+      </div>
+      <a class="back" href="../../index.html">main</a>
+    </header>
+
+    <div class="chat" id="chat" role="log" aria-label="Chat with pav">
+
+      <section class="topic open" data-topic="hi">
+        <p class="stamp">today</p>
+        <p class="msg">hi, i'm</p>
+        <p class="msg loud">pav</p>
+        <p class="msg"><b>Paweł Sysiak.</b> pav for short.</p>
+        <p class="msg">designer. writer. art background. <b>interested in almost anything.</b></p>
+      </section>
+
+      <section class="topic" data-topic="short" data-chip="the short version">
+        <p class="msg me">the short version, in your own words?</p>
+        <p class="msg">My name is Paweł, or pav for short. I learn, write, and am <b>scheming</b> how to improve epistemics and collective coordination using technology.</p>
+        <p class="msg">I am currently working at <a href="https://softmax.com">Softmax</a>.</p>
+        <p class="msg">I do <a href="https://design.sysiak.com">UI / UX design</a>, wrote <a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d">AI Revolution 101</a> and have a background in <a href="https://www.pawel.world/art">art</a>.</p>
+        <p class="msg">I grew up in Poland and live between the US and EU.</p>
+      </section>
+
+      <section class="topic" data-topic="receipts" data-chip="receipts?">
+        <p class="msg me">receipts? stuff you made and did</p>
+        <a class="msg card" href="https://softmax.com"><span class="strip">now</span><h3>Softmax</h3><p>Product design for AI systems.</p><span class="go">softmax.com</span></a>
+        <a class="msg card" href="https://design.sysiak.com"><span class="strip">10+ years</span><h3>shipping products</h3><p>Rebuilt the design system at Plume and shaped products reaching 1B+ devices. Also BlackRock.</p><span class="go">see the design work</span></a>
+        <a class="msg card" href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d"><span class="strip">essay</span><h3>AI Revolution 101</h3><p>In 2016 I squeezed Tim Urban's two-part Wait But Why essay to a third of its length, with their approval, and added new animations. A 35 minute read that reached 160k+ people.</p><span class="go">read it</span></a>
+        <a class="msg card" href="https://www.pawel.world/"><span class="strip">wiki</span><h3>pawel.world</h3><p>My personal wiki, live since January 2020. I try to distill the most impactful knowledge: cognitive biases, mental models, well-being, collective coordination.</p><span class="go">get lost in it</span></a>
+        <a class="msg card" href="https://pawsys.github.io/pawel-design/coordination/"><span class="strip">coordination</span><h3>helping groups decide</h3><p>Led user research on AI alignment tooling at AI Objectives Institute. Built coordination systems for collective decision-making with Plurality Institute.</p><span class="go">case study</span></a>
+        <a class="msg card" href="https://youtu.be/JZ-eSTuf7Ko"><span class="strip">film</span><h3>How Art Works?</h3><p>A serious movie about problems and solutions. A co-created 12 minute film on the art world, global culture and metaphysics. Went viral in the art corner of the internet. 35k+ views.</p><span class="go">watch it</span></a>
+        <a class="msg card" href="https://billygallery.super.site/"><span class="strip">gallery</span><h3>Billy Gallery</h3><p>An internet art project I led, exploring how art can exist online. Exhibitions, events, trips, screenings, memes.</p><span class="go">visit Billy</span></a>
+        <a class="msg card" href="https://pawsys.github.io/pawel-design/brutu/"><span class="strip">app</span><h3>Brutu timer</h3><p>An iOS timer that burns your money if you leave the app. Stay focused or pay up.</p><span class="go">see the project</span></a>
+        <a class="msg card" href="https://sysiak.substack.com/"><span class="strip">writing</span><h3>Substack</h3><p>Every subscription, free or paid, feels v meaningful.</p><span class="go">subscribe</span></a>
+      </section>
+
+      <section class="topic" data-topic="art" data-chip="the art era">
+        <p class="msg me">wait, the art era?</p>
+        <p class="msg hot">with all my heart i believe in art</p>
+        <p class="msg">I worked as an artist creating sculptures, installations, and conceptual art. Some of my work lives in the collection of the Museum of Modern Art in Warsaw. I showed in Warsaw, Beirut, Ljubljana and Prague.</p>
+        <figure class="msg pic"><img src="../../art/i-believe-in-art-with-all-my-heart.webp" width="1100" height="737" loading="lazy" alt="A yellow football jersey, one long goalkeeper arm, a fishing rod, tights and red boots arranged on a white gallery wall like a figure"><figcaption>I Believe in Art With All My Heart <span>performance, mixed media</span></figcaption></figure>
+        <figure class="msg pic"><img src="../../art/every-step-is-moving-me-up.webp" width="735" height="1000" loading="lazy" alt="A sheet of paper with coffee rings, a drawn eye, a red triangle, a small kite on a line and a paintbrush stuck into the paper"><figcaption>Every Step Is Moving Me Up <span>installation, mixed media, 210 x 100 cm</span></figcaption></figure>
+        <figure class="msg pic"><img src="../../art/man.webp" width="734" height="1000" loading="lazy" alt="A white gallery with a black floor and an arrangement of a white pedestal, insulation panels, a clothes drier and small objects"><figcaption>Man <span>installation, various materials, 4.5 x 7 m</span></figcaption></figure>
+        <figure class="msg pic"><img src="../../art/painting-exhibition.webp" width="1100" height="737" loading="lazy" alt="A large white panel holding a black poster, a grid of photographs, an open book, a CD and small screens, like a tiny exhibition"><figcaption>Painting-exhibition <span>exhibition on canvas, mixed media, 130 x 170 cm</span></figcaption></figure>
+        <p class="msg"><a href="https://www.pawel.world/art">see the whole art portfolio</a></p>
+      </section>
+
+      <section class="topic" data-topic="values" data-chip="what do you care about?">
+        <p class="msg me">what do you care about?</p>
+        <p class="msg"><b>overcoming bias.</b> I am sure I suffer from many, especially the mother of all, my-side bias. So pleassssse send feedback.</p>
+        <p class="msg"><b>love and fun.</b> I want to be what loves becoming, what laughs, friends and has fun.</p>
+        <p class="msg"><b>short.</b> "I am sorry that I didn't have time to write a shorter letter." Pascal said it. I try to distill knowledge into as few words as possible.</p>
+        <p class="msg"><b>a peasant's reasoning.</b> A Polish expression: say it in the simplest possible terms. "If you can't explain it simply you don't understand it well enough." That is Richard Feynman's learning method.</p>
+        <p class="msg"><b>precise.</b> I will prioritize precision over persuasion.</p>
+        <p class="msg"><b>long-term.</b> I try to resist the new and select the knowledge that has a long expiry date.</p>
+        <p class="msg"><b>max good.</b> I feel the most meaning when I am in the process, however wiggly, of attempting to create the most positive impact.</p>
+        <p class="msg"><b>almost anything.</b> It's tough to "succeed" as a generalist. It's also the most fun.</p>
+      </section>
+
+      <section class="topic" data-topic="believe" data-chip="what do you believe?">
+        <p class="msg me">ok and what do you believe?</p>
+        <p class="msg hot">in my wiki we believe:</p>
+        <p class="msg">AI alignment is not the default</p>
+        <p class="msg">What we <b>LOVE</b> to do is work on bits that might positively affect the long-run future</p>
+        <p class="msg">The impact of various interventions follows a heavy-tailed distribution</p>
+        <p class="msg">The question is not can they reason, nor can they talk, but can they suffer</p>
+        <p class="msg">All possible views of humanity's future are wild</p>
+      </section>
+
+      <section class="topic" data-topic="links" data-chip="send links">
+        <p class="msg me">send links</p>
+        <p class="msg">ok now go click something</p>
+        <div class="msg linklist">
+          <a href="https://www.pawel.world/"><b>pawel.world</b> <span>the wiki</span></a>
+          <a href="https://design.sysiak.com"><b>design.sysiak.com</b> <span>the design work</span></a>
+          <a href="https://sysiak.substack.com/"><b>Substack</b> <span>the essays</span></a>
+          <a href="https://medium.com/ai-revolution/ai-revolution-101-8dce1d9cb62d"><b>AI Revolution 101</b> <span>the big one</span></a>
+          <a href="https://www.pawel.world/art"><b>art</b> <span>the portfolio</span></a>
+          <a href="https://github.com/pawsys"><b>GitHub</b> <span>pawsys</span></a>
+          <a href="https://www.linkedin.com/in/sysiak/"><b>LinkedIn</b> <span>say hello</span></a>
+        </div>
+      </section>
+
+      <section class="topic" data-topic="bye">
+        <p class="msg">What truths about myself are people trying to avoid telling me?</p>
+        <p class="msg"><a href="https://www.linkedin.com/in/sysiak/">Send feedback.</a></p>
+      </section>
+
+    </div>
+
+    <div class="replies" id="replies">
+      <p>tap a reply</p>
+      <div class="chips" id="chips"></div>
+    </div>
+  </main>
+
+  <div class="notes" aria-hidden="true">
+    <p>tap a reply to keep pav talking</p>
+    <p>double-tap any message to ♥ it</p>
+    <p>how to survive being interested in almost anything?</p>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var chat = document.getElementById("chat");
+  var chips = document.getElementById("chips");
+  var replies = document.getElementById("replies");
+  var topics = Array.prototype.slice.call(chat.querySelectorAll(".topic[data-chip]"));
+  var bye = chat.querySelector('[data-topic="bye"]');
+  var busy = false;
+  var left = topics.length;
+
+  function bottom() { chat.scrollTop = chat.scrollHeight; }
+
+  // show one topic: its messages arrive one at a time, with a typing bubble in between
+  function play(section, instant, done) {
+    var items = Array.prototype.slice.call(section.children);
+    chat.appendChild(section);
+    section.classList.add("open");
+    if (instant) { bottom(); if (done) done(); return; }
+
+    items.forEach(function (el) { el.classList.add("wait"); });
+    var dots = document.createElement("div");
+    dots.className = "typing";
+    dots.innerHTML = "<i></i><i></i><i></i>";
+    var i = 0;
+
+    function next() {
+      dots.remove();
+      if (i >= items.length) { if (done) done(); return; }
+      var el = items[i++];
+      el.classList.remove("wait");
+      el.classList.add("in");
+      bottom();
+      if (i >= items.length) { if (done) done(); return; }
+      var mine = el.classList.contains("me");
+      section.appendChild(dots);
+      bottom();
+      setTimeout(next, mine ? 650 : Math.min(950, 380 + el.textContent.length * 4));
+    }
+    next();
+  }
+
+  function finish() {
+    left--;
+    busy = false;
+    setChips(false);
+    if (left === 0) {
+      replies.innerHTML = '<p class="done">that is everything. <a href="https://www.linkedin.com/in/sysiak/">Send feedback.</a></p>';
+      busy = true;
+      setTimeout(function () { play(bye, calm, null); }, calm ? 0 : 500);
+    }
+  }
+
+  function setChips(off) {
+    Array.prototype.forEach.call(chips.children, function (b) { b.disabled = off; });
+  }
+
+  function everything() {
+    topics.forEach(function (t) { if (!t.classList.contains("open")) play(t, true); });
+    play(bye, true);
+    chips.innerHTML = "";
+    replies.innerHTML = '<p class="done">that is everything. <a href="https://www.linkedin.com/in/sysiak/">Send feedback.</a></p>';
+    chat.scrollTop = 0;
+  }
+
+  topics.forEach(function (section) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = section.getAttribute("data-chip");
+    b.addEventListener("click", function () {
+      if (busy) return;
+      busy = true;
+      b.remove();
+      setChips(true);
+      play(section, calm, finish);
+    });
+    chips.appendChild(b);
+  });
+
+  var all = document.createElement("button");
+  all.type = "button";
+  all.className = "all";
+  all.textContent = "everything at once";
+  all.addEventListener("click", function () { if (!busy) everything(); });
+  chips.appendChild(all);
+
+  // double-tap a message to heart it
+  chat.addEventListener("dblclick", function (e) {
+    var m = e.target.closest(".msg");
+    if (m) { m.classList.toggle("loved"); e.preventDefault(); }
+  });
+
+  if (location.hash === "#all") {
+    everything();
+  } else {
+    var hi = chat.querySelector('[data-topic="hi"]');
+    busy = true;
+    setChips(true);
+    // the intro and the short version play on their own, the rest is up to you
+    var first = topics[0];
+    chips.firstChild.remove();
+    play(hi, calm, function () {
+      setTimeout(function () { play(first, calm, finish); }, calm ? 0 : 700);
+    });
+  }
+})();
+</script>
+</body>
+</html>
